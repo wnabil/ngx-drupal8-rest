@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "removeComments": true,
+    "lib": ["es2015", "dom"],
+    "sourceMap": false,
+    "outDir": "./lib",
+    "declaration": true,
+    "types": [
+      "node"
+    ]
+  },
+  "exclude": [
+    "demo/**/*",
+    "node_modules/**/*"
+  ],
+  "angularCompilerOptions": {
+    "genDir": "./dist"
+  }
+}
