@@ -14,4 +14,5 @@ export interface HttpOptions {
   responseType?: string;
   method?: HttpMethods;
   frags?: string[] | number[];
+  observe?: 'body' | 'response' | 'events';
 }

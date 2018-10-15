@@ -3,5 +3,5 @@ export interface Settings {
   protocol: 'http' | 'https';
   requestTimeout?: number;
   port?: number;
-
+  cookieLifetime?: number;
 }

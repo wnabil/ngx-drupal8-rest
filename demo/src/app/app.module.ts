@@ -4,7 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 
 // my module
-import { Drupal8RestModule, DrupalConstants, Settings } from '../../../index';
+import { Drupal8RestModule, DrupalConstants } from '../../../index';
+import { settings } from './config';
 
 @NgModule({
   declarations: [
@@ -23,12 +24,6 @@ export class AppModule {
   }
 
   initDrupal() {
-    const settings: Settings = {
-      protocol: 'http',
-      host: 'localhost',
-      requestTimeout: 5000
-    }
-    
     DrupalConstants.init(settings);
   }
 }

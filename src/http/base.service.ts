@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
+// RXJS
 import { Observable } from 'rxjs';
 import { timeout } from 'rxjs/operators';
 
+// Custom imports
 import { HttpOptions } from '../models';
 import { DrupalConstants } from '../config';
 
@@ -15,32 +18,55 @@ export class BaseService {
     private httpClient: HttpClient,
   ) { }
 
+  /**
+   * Main method for implementing all the HttpClient requests and return the results
+   * @param options Custom HttpOptions to be overrided
+   * @param resource The resource url, Token frags will be replaced from options.frags, EX: {'/user/{uid}'}
+   * @param body the content to be sent with the request, Only for put and post methods
+   */
   protected request(options: HttpOptions, resource: string, body?): Observable<any> {
+    // Get full url
     const structuredResource = this.structureResource(resource, options.frags);
 
     let request: Observable<Object>;
+    // Init http options
     const httpOptions = this.httpOptions(options);
+
+    // Use the desired method
     if (options.method === 'put' || options.method === 'post') {
       request = this.httpClient[options.method](structuredResource, body, httpOptions);
     } else {
       request = this.httpClient[options.method](structuredResource, httpOptions);
     }
 
+    // Set requests time out from drupal config
     return request.pipe(timeout(DrupalConstants.Settings.requestTimeout));
   }
 
+  /**
+   * Get default HttpOptions or replace the custom ones.
+   * Supports url params, responseType, headers, observer
+   * @param options Custom httpOptions to override the defaults
+   */
   private httpOptions(options: HttpOptions) {
+    // Init default options
     const httpOptions: any = {
-      reportProgress: true,
+      reportProgress: true, // allow for progress
       withCredentials: true,
       responseType: 'json',
       params: {
-        '_format': 'json'
+        '_format': 'json' // required by drupal 8 rest
       },
-      headers: {
-        // 'X-CSRF-Token': this.savedVariable('token'),
-      }
+      headers: {},
+      observe: 'body',
     };
+
+    // If the user is logged in, add the CSRF header token
+    if (DrupalConstants.Connection && DrupalConstants.Connection.csrf_token) {
+      httpOptions.headers['X-CSRF-Token'] = DrupalConstants.Connection.csrf_token;
+    }
+
+    // Override defaults
     if (options.params) {
       httpOptions.params = options.params;
     }
@@ -50,11 +76,11 @@ export class BaseService {
     if (options.headers) {
       httpOptions.headers = options.headers;
     }
-    return httpOptions;
-  }
+    if (options.observe) {
+      httpOptions.observe = options.observe;
+    }
 
-  private savedVariable(variableName: string) {
-    return '';
+    return httpOptions;
   }
 
   /**
@@ -86,4 +112,5 @@ export class BaseService {
     resourceFrags = resourceFrags.substr(1);
     return DrupalConstants.backEndUrl + resourceFrags;
   }
+
 }
