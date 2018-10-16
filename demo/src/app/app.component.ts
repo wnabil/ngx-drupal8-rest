@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../../index';
-import { DrupalConstants } from '../../../src';
+import { UserService, ViewService } from '../../../index';
+import { DrupalConstants, ViewOptions } from '../../../src';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private viewService: ViewService
   ) { }
 
   ngOnInit() {
@@ -39,4 +40,26 @@ export class AppComponent implements OnInit {
       console.log(data);
     });
   }
+
+  getView() {
+    this.viewService.getView('test').subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  getViewResult() {
+    const options: ViewOptions = {
+      args: [],
+      filters: {
+        // uid: 'testtest, root'
+      },
+      pagination: {
+        page: 1
+      }
+    };
+    this.viewService.get('/view/test', options).subscribe(data => {
+      console.log(data);
+    });
+  }
+
 }

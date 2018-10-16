@@ -20,10 +20,10 @@ export class UserService extends BaseService {
    * @param credentials username and password object style of the user
    */
   login(credentials: LoginCredentials): Observable<LoginResponse> {
-    const options: HttpOptions = {
+    const httpOptions: HttpOptions = {
       method: 'post',
     };
-    return this.request(options, '/user/login', credentials).pipe(tap((response: LoginResponse) => {
+    return this.request(httpOptions, '/user/login', credentials).pipe(tap((response: LoginResponse) => {
       // Save the response connection
       this.saveConnection(response);
     }));
@@ -41,7 +41,7 @@ export class UserService extends BaseService {
     }
 
     // set the options and logout token
-    const options: HttpOptions = {
+    const httpOptions: HttpOptions = {
       method: 'post',
       params: {
         '_format': 'json',
@@ -50,7 +50,7 @@ export class UserService extends BaseService {
     };
 
     // delete the saved connection after logging out
-    return this.request(options, '/user/logout').pipe(tap(this.deleteConnection));
+    return this.request(httpOptions, '/user/logout').pipe(tap(this.deleteConnection));
   }
 
   /**
@@ -58,11 +58,11 @@ export class UserService extends BaseService {
    * @param uid the user id
    */
   get(uid: number): Observable<LoginResponse> {
-    const options: HttpOptions = {
+    const httpOptions: HttpOptions = {
       method: 'get',
       frags: [uid]
     };
-    return this.request(options, '/user/{user}');
+    return this.request(httpOptions, '/user/{user}');
   }
 
   /**

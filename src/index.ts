@@ -1,7 +1,7 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
-import { UserService } from './http';
+import { UserService, ViewService, BaseService } from './http';
 import { DrupalConstants } from './config';
 
 /**
@@ -20,7 +20,9 @@ export function init(userService: UserService): () => void {
     HttpClientModule
   ],
   providers: [
+    BaseService,
     UserService,
+    ViewService,
     {
       'provide': APP_INITIALIZER,
       'useFactory': init,

@@ -3,7 +3,7 @@ import { HttpParams, HttpHeaders } from '@angular/common/http';
 export type HttpMethods = 'get' | 'put' | 'post' | 'delete';
 
 export type HttpParamsKeyValue = HttpParams | {
-  [param: string]: string | string[];
+  [param: string]: string | number | boolean;
 };
 
 export interface HttpOptions {
