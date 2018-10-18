@@ -5,7 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 // Custom imports
-import { HttpOptions, LoginCredentials, LoginResponse } from '../models';
+import { HttpOptions, LoginCredentials, LoginResponse, UserEntity } from '../models';
 import { BaseService } from './base.service';
 import { DrupalConstants } from '../config';
 
@@ -54,10 +54,10 @@ export class UserService extends BaseService {
   }
 
   /**
-   * implement resource /user/{user} GET
+   * Implement resource /user/{user} GET
    * @param uid the user id
    */
-  get(uid: number): Observable<LoginResponse> {
+  get(uid: number): Observable<UserEntity> {
     const httpOptions: HttpOptions = {
       method: 'get',
       frags: [uid]
@@ -66,28 +66,39 @@ export class UserService extends BaseService {
   }
 
   /**
-   * a
-   * @param user TODO
+   * Implement resource /entity/user: POST
+   * @param user user object to create
    */
-  create(user) {
-
+  create(user: UserEntity): Observable<UserEntity> {
+    const httpOptions: HttpOptions = {
+      method: 'post',
+    };
+    return this.request(httpOptions, '/entity/user', user);
   }
 
   /**
-   * a
-   * @param uid TODO
-   * @param user a
+   * Implement resource /user/{user}: PATCH
+   * @param uid user id to update
+   * @param user user object with required values
    */
-  update(uid: number, user) {
-
+  update(uid: number, user): Observable<UserEntity> {
+    const httpOptions: HttpOptions = {
+      method: 'patch',
+      frags: [uid]
+    };
+    return this.request(httpOptions, '/user/{user}', user);
   }
 
   /**
-   * a
-   * @param uid TODO
+   * Implement resource /user/{user}: DELETE
+   * @param uid user id to delete
    */
-  delete(uid: number) {
-
+  delete(uid: number): Observable<null> {
+    const httpOptions: HttpOptions = {
+      method: 'delete',
+      frags: [uid]
+    };
+    return this.request(httpOptions, '/user/{user}');
   }
 
   /**

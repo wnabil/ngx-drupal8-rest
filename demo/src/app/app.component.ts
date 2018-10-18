@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService, ViewService } from '../../../index';
-import { DrupalConstants, ViewOptions } from '../../../src';
+import { DrupalConstants, ViewOptions, UserEntity } from '../../../src';
 
 @Component({
   selector: 'app-root',
@@ -36,7 +36,41 @@ export class AppComponent implements OnInit {
   }
 
   getUser() {
-    this.userService.get(1).subscribe(data => {
+    this.userService.get(2).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  createUser() {
+    const user: UserEntity = {
+      name: [
+        { value: '123123123' }
+      ],
+      mail: [
+        { value: 'blabla@awdawd.com' }
+      ]
+    };
+    this.userService.create(user).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  updateUser() {
+    const user: UserEntity = {
+      name: [
+        { value: 'newname' }
+      ],
+      mail: [
+        { value: 'newmail@awdawdadw.com' }
+      ]
+    };
+    this.userService.update(2, user).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  deleteUser() {
+    this.userService.delete(2).subscribe(data => {
       console.log(data);
     });
   }

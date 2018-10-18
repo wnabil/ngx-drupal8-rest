@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
 // RXJS
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 
 // Custom imports
 import { BaseService } from './base.service';
-import { ViewOptions, HttpOptions } from '../models';
+import { ViewOptions, HttpOptions, ViewEntity } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class ViewService extends BaseService {
    * Get view result
    * @param machineName view machine name
    */
-  getView(machineName: string): Observable<any> {
+  getView(machineName: string): Observable<ViewEntity> {
     const httpOptions: HttpOptions = {
       method: 'get',
       frags: [machineName],
@@ -37,6 +37,7 @@ export class ViewService extends BaseService {
         '_format': 'json'
       }
     };
+
     if (viewOptions.args) {
       viewPath += '/' + viewOptions.args.join('/');
     }

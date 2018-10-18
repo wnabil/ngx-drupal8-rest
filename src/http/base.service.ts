@@ -22,7 +22,7 @@ export class BaseService {
    * Main method for implementing all the HttpClient requests and return the results
    * @param options Custom HttpOptions to be overrided
    * @param resource The resource url, Token frags will be replaced from options.frags, EX: {'/user/{uid}'}
-   * @param body the content to be sent with the request, Only for put and post methods
+   * @param body the content to be sent with the request, Only for patch and post methods
    */
   protected request(options: HttpOptions, resource: string, body?): Observable<any> {
     // Get full url
@@ -33,7 +33,7 @@ export class BaseService {
     const httpOptions = this.httpOptions(options);
 
     // Use the desired method
-    if (options.method === 'put' || options.method === 'post') {
+    if (options.method === 'patch' || options.method === 'post') {
       request = this.httpClient[options.method](structuredResource, body, httpOptions);
     } else {
       request = this.httpClient[options.method](structuredResource, httpOptions);

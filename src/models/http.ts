@@ -1,6 +1,6 @@
 import { HttpParams, HttpHeaders } from '@angular/common/http';
 
-export type HttpMethods = 'get' | 'put' | 'post' | 'delete';
+export type HttpMethods = 'get' | 'patch' | 'post' | 'delete';
 
 export type HttpParamsKeyValue = HttpParams | {
   [param: string]: string | number | boolean;
