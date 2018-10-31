@@ -81,7 +81,7 @@ export class UserService extends BaseService {
    * @param uid user id to update
    * @param user user object with required values
    */
-  update(uid: number, user): Observable<UserEntity> {
+  update(uid: number, user: UserEntity): Observable<UserEntity> {
     const httpOptions: HttpOptions = {
       method: 'patch',
       frags: [uid]

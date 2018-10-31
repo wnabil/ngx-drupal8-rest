@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService, ViewService } from '../../../index';
-import { DrupalConstants, ViewOptions, UserEntity } from '../../../src';
+import { DrupalConstants, ViewOptions, UserEntity, ContentService, ContentEntity } from '../../../src';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private viewService: ViewService
+    private viewService: ViewService,
+    private contentService: ContentService
   ) { }
 
   ngOnInit() {
@@ -92,6 +93,49 @@ export class AppComponent implements OnInit {
       }
     };
     this.viewService.get('/view/test', options).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  getContent() {
+    this.contentService.get(1).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  createContent() {
+    const node: ContentEntity = {
+      title: [
+        {
+          value: 'teest',
+        },
+      ],
+      type: [
+        {
+          target_id : 'article',
+        },
+      ],
+    };
+    this.contentService.create(node).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  updateContent() {
+    const node: ContentEntity = {
+      title: [
+        {
+          value: 'test2',
+        },
+      ],
+    };
+    this.contentService.update(2, node).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  deleteContent() {
+    this.contentService.delete(2).subscribe(data => {
       console.log(data);
     });
   }
