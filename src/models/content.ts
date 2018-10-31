@@ -25,3 +25,17 @@ export interface ContentEntity {
   uuid?: FieldText[];
   vid?: FieldNumber[];
 }
+
+export interface ContentType {
+  dependencies: string[];
+  description: string;
+  display_submitted: boolean;
+  help: string;
+  langcode: string;
+  name: string;
+  new_revision: boolean;
+  preview_mode: number;
+  status: boolean;
+  type: string;
+  uuid: string;
+}

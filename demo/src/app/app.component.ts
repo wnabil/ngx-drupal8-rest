@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService, ViewService } from '../../../index';
-import { DrupalConstants, ViewOptions, UserEntity, ContentService, ContentEntity } from '../../../src';
+import {
+  DrupalConstants, ViewOptions, UserEntity, ContentService, ContentEntity, TaxonomyTermService,
+  TaxonomyTermEntity
+} from '../../../src';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +16,8 @@ export class AppComponent implements OnInit {
   constructor(
     private userService: UserService,
     private viewService: ViewService,
-    private contentService: ContentService
+    private contentService: ContentService,
+    private taxonomyTermService: TaxonomyTermService,
   ) { }
 
   ngOnInit() {
@@ -112,7 +116,7 @@ export class AppComponent implements OnInit {
       ],
       type: [
         {
-          target_id : 'article',
+          target_id: 'article',
         },
       ],
     };
@@ -136,6 +140,62 @@ export class AppComponent implements OnInit {
 
   deleteContent() {
     this.contentService.delete(2).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  contentType() {
+    this.contentService.contentType('article').subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  getTerm() {
+    this.taxonomyTermService.get(1).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  createTerm() {
+    const term: TaxonomyTermEntity = {
+      name: [
+        {
+          value: 'test'
+        }
+      ],
+      vid: [
+        {
+          target_id: 'tags'
+        }
+      ]
+    };
+
+    this.taxonomyTermService.create(term).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  updateTerm() {
+    const term: TaxonomyTermEntity = {
+      name: [
+        {
+          value: 'test1'
+        }
+      ],
+      vid: [
+        {
+          target_id: 'tags'
+        }
+      ]
+    };
+
+    this.taxonomyTermService.update(2, term).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  deleteTerm() {
+    this.taxonomyTermService.delete(2).subscribe(data => {
       console.log(data);
     });
   }

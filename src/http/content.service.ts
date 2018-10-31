@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 // Custom imports
 import { BaseService } from './base.service';
-import { HttpOptions, ContentEntity } from '../models';
+import { HttpOptions, ContentEntity, ContentType } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,7 @@ export class ContentService extends BaseService {
    * Implement resource /node: POST
    * @param content node object to create
    */
-  create(content: ContentEntity): Observable<any> {
+  create(content: ContentEntity): Observable<ContentEntity> {
     const httpOptions: HttpOptions = {
       method: 'post',
     };
@@ -58,6 +58,18 @@ export class ContentService extends BaseService {
       frags: [nid]
     };
     return this.request(httpOptions, '/node/{node}');
+  }
+
+  /**
+   * Implement resource /entity/node_type/{node_type}
+   * @param type node type or machine name like page, article
+   */
+  contentType(type: string): Observable<ContentType> {
+    const httpOptions: HttpOptions = {
+      method: 'get',
+      frags: [type]
+    };
+    return this.request(httpOptions, '/entity/node_type/{node_type}');
   }
 
 }
