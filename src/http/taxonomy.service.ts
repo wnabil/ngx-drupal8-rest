@@ -5,12 +5,12 @@ import { Observable } from 'rxjs';
 
 // Custom imports
 import { BaseService } from './base.service';
-import { HttpOptions, TaxonomyTermEntity } from '../models';
+import { HttpOptions, TaxonomyTermEntity, TaxonomyVocabularyEntity } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TaxonomyTermService extends BaseService {
+export class TaxonomyService extends BaseService {
 
   /**
    * Implement resource /taxonomy/term/{taxonomy_term} GET
@@ -58,6 +58,18 @@ export class TaxonomyTermService extends BaseService {
       frags: [tid]
     };
     return this.request(httpOptions, '/taxonomy/term/{taxonomy_term}');
+  }
+
+  /**
+   * Implement /entity/taxonomy_vocabulary/{taxonomy_vocabulary}: Get
+   * @param machineName vocabulary machine name like tags
+   */
+  vocabulary(machineName: string): Observable<TaxonomyVocabularyEntity> {
+    const httpOptions: HttpOptions = {
+      method: 'get',
+      frags: [machineName]
+    };
+    return this.request(httpOptions, '/entity/taxonomy_vocabulary/{taxonomy_vocabulary}');
   }
 
 }

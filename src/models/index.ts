@@ -4,4 +4,4 @@ export * from './field';
 export * from './user';
 export * from './view';
 export * from './content';
-export * from './taxonomy-term';
+export * from './taxonomy';

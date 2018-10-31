@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService, ViewService } from '../../../index';
 import {
-  DrupalConstants, ViewOptions, UserEntity, ContentService, ContentEntity, TaxonomyTermService,
+  DrupalConstants, ViewOptions, UserEntity, ContentService, ContentEntity, TaxonomyService,
   TaxonomyTermEntity
 } from '../../../src';
 
@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
     private userService: UserService,
     private viewService: ViewService,
     private contentService: ContentService,
-    private taxonomyTermService: TaxonomyTermService,
+    private taxonomyService: TaxonomyService,
   ) { }
 
   ngOnInit() {
@@ -151,7 +151,7 @@ export class AppComponent implements OnInit {
   }
 
   getTerm() {
-    this.taxonomyTermService.get(1).subscribe(data => {
+    this.taxonomyService.get(1).subscribe(data => {
       console.log(data);
     });
   }
@@ -170,7 +170,7 @@ export class AppComponent implements OnInit {
       ]
     };
 
-    this.taxonomyTermService.create(term).subscribe(data => {
+    this.taxonomyService.create(term).subscribe(data => {
       console.log(data);
     });
   }
@@ -189,13 +189,19 @@ export class AppComponent implements OnInit {
       ]
     };
 
-    this.taxonomyTermService.update(2, term).subscribe(data => {
+    this.taxonomyService.update(2, term).subscribe(data => {
       console.log(data);
     });
   }
 
   deleteTerm() {
-    this.taxonomyTermService.delete(2).subscribe(data => {
+    this.taxonomyService.delete(2).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  getVocabulary() {
+    this.taxonomyService.vocabulary('tags').subscribe(data => {
       console.log(data);
     });
   }

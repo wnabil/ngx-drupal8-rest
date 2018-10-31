@@ -14,3 +14,15 @@ export interface TaxonomyTermEntity {
   uuid?: FieldText[];
   weight?: FieldNumber[];
 }
+
+export interface TaxonomyVocabularyEntity {
+  dependencies: string[];
+  description: string;
+  hierarchy: number;
+  langcode: string;
+  name: string;
+  status: boolean;
+  uuid: string;
+  vid: string;
+  weight: number;
+}

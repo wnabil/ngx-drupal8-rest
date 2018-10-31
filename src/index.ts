@@ -1,7 +1,7 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
-import { UserService, ViewService, BaseService, ContentService, TaxonomyTermService } from './http';
+import { UserService, ViewService, BaseService, ContentService, TaxonomyService } from './http';
 import { DrupalConstants } from './config';
 
 /**
@@ -24,7 +24,7 @@ export function init(userService: UserService): () => void {
     UserService,
     ViewService,
     ContentService,
-    TaxonomyTermService,
+    TaxonomyService,
     {
       'provide': APP_INITIALIZER,
       'useFactory': init,
