@@ -4,7 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 
 // my module
-import { Drupal8RestModule } from '../../../';
+import { Drupal8RestModule, DrupalConstants } from '../../../index';
+import { settings } from './config';
 
 @NgModule({
   declarations: [
@@ -17,4 +18,12 @@ import { Drupal8RestModule } from '../../../';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    this.initDrupal();
+  }
+
+  initDrupal() {
+    DrupalConstants.init(settings);
+  }
+}
