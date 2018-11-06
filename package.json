@@ -1,26 +1,26 @@
 {
   "name": "ngx-drupal8-rest",
-  "version": "0.0.1-alpha",
+  "version": "0.0.3-alpha",
   "scripts": {
     "start": "ng serve",
     "build": "ngc"
   },
   "private": false,
   "dependencies": {
-    "@angular/animations": "^6.1.9",
+  },
+  "devDependencies": {
     "@angular/common": "^6.1.9",
     "@angular/compiler": "^6.1.9",
     "@angular/core": "^6.1.9",
-    "@angular/forms": "^6.1.9",
-    "@angular/http": "^6.1.9",
     "@angular/platform-browser": "^6.1.9",
     "@angular/platform-browser-dynamic": "^6.1.9",
-    "@angular/router": "^6.1.9",
     "core-js": "^2.5.7",
     "rxjs": "^6.3.3",
-    "zone.js": "^0.8.26"
-  },
-  "devDependencies": {
+    "zone.js": "^0.8.26",
+    "@angular/animations": "^6.1.9",
+    "@angular/forms": "^6.1.9",
+    "@angular/http": "^6.1.9",
+    "@angular/router": "^6.1.9",
     "@angular-devkit/build-angular": "~0.8.4",
     "@angular/cli": "~6.2.4",
     "@angular/compiler-cli": "^6.1.9",
