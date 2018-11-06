@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService, ViewService } from '../../../index';
 import {
   DrupalConstants, ViewOptions, UserEntity, ContentService, ContentEntity, TaxonomyService,
-  TaxonomyTermEntity
+  TaxonomyTermEntity, FileService, FileEntity
 } from '../../../src';
 
 @Component({
@@ -12,12 +12,14 @@ import {
 })
 export class AppComponent implements OnInit {
   title = 'app';
+  file: File;
 
   constructor(
     private userService: UserService,
     private viewService: ViewService,
     private contentService: ContentService,
     private taxonomyService: TaxonomyService,
+    private fileService: FileService
   ) { }
 
   ngOnInit() {
@@ -202,6 +204,38 @@ export class AppComponent implements OnInit {
 
   getVocabulary() {
     this.taxonomyService.vocabulary('tags').subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  getFile() {
+    this.fileService.get(2).subscribe(data => {
+      console.log(data);
+    })
+  }
+
+  upload() {
+    this.fileService.upload('node', 'article', 'field_image', this.file).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  editFile() {
+    const file: FileEntity = {
+      filename: [
+        {
+          value: 'test1awddad.png'
+        }
+      ],
+    };
+
+    this.fileService.update(2, file).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  deleteFile() {
+    this.fileService.delete(3).subscribe(data => {
       console.log(data);
     });
   }

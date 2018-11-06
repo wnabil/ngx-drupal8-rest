@@ -25,6 +25,10 @@ export interface FieldDate extends FieldValue {
   format: string;
 }
 
+export interface FieldURL extends FieldValue {
+  url: string;
+}
+
 export interface FieldEntityReference {
   target_id: string | number;
   target_type?: string;

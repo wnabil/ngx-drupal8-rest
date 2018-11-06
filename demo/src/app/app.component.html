@@ -20,3 +20,10 @@
 <button (click)="updateTerm()">update term</button>
 <button (click)="deleteTerm()">delete term</button>
 <button (click)="getVocabulary()">get vocabulary</button>
+<h3>file</h3>
+<input type="file" accept="image/*" (change)="file = $event.target.files[0]" />
+<button (click)="upload()">create file</button>
+<button (click)="getFile()">get file</button>
+<button (click)="editFile()">edit file</button>
+<button (click)="deleteFile()">delete file</button>
+
