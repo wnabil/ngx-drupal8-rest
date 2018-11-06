@@ -5,7 +5,7 @@
     "start": "ng serve",
     "build": "ngc"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "^6.1.9",
     "@angular/common": "^6.1.9",
