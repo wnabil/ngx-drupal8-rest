@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, ViewService } from '../../../index';
+import { UserService, ViewService } from 'ngx-drupal8-rest';
 import {
   DrupalConstants, ViewOptions, UserEntity, ContentService, ContentEntity, TaxonomyService,
   TaxonomyTermEntity, FileService, FileEntity
-} from '../../../src';
+} from 'ngx-drupal8-rest';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   title = 'app';
@@ -211,7 +211,7 @@ export class AppComponent implements OnInit {
   getFile() {
     this.fileService.get(2).subscribe(data => {
       console.log(data);
-    })
+    });
   }
 
   upload() {

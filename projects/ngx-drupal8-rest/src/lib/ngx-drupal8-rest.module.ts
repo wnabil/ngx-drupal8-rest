@@ -14,7 +14,7 @@ export function init(userService: UserService): () => void {
     DrupalConstants.Connection = userService.connection;
   };
 }
-
+// @dynamic
 @NgModule({
   imports: [
     HttpClientModule
@@ -35,7 +35,3 @@ export function init(userService: UserService): () => void {
   ]
 })
 export class Drupal8RestModule { }
-
-export * from './config';
-export * from './models';
-export * from './http';

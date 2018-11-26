@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 
 // my module
-import { Drupal8RestModule, DrupalConstants } from '../../../index';
+import { Drupal8RestModule, DrupalConstants } from 'ngx-drupal8-rest';
 import { settings } from './config';
 
 @NgModule({

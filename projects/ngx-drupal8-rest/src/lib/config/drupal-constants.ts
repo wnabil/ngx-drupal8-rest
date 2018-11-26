@@ -1,5 +1,6 @@
 import { Settings, LoginResponse } from '../models';
 
+// @dynamic
 export class DrupalConstants {
   // Singletons
   private static instance: DrupalConstants;
