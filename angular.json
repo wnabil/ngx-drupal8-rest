@@ -3,27 +3,31 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-drupal8-rest": {
+    "ngx-drupal8-rest-demo": {
       "root": "",
-      "sourceRoot": "demo/src",
+      "sourceRoot": "src",
       "projectType": "application",
       "prefix": "app",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ngx-drupal8-rest",
-            "index": "demo/src/index.html",
-            "main": "demo/src/main.ts",
-            "polyfills": "demo/src/polyfills.ts",
-            "tsConfig": "demo/src/tsconfig.app.json",
+            "outputPath": "dist/ngx-drupal8-rest-demo",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "demo/src/favicon.ico",
-              "demo/src/assets"
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
-              "demo/src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -31,8 +35,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "demo/src/environments/environment.ts",
-                  "with": "demo/src/environments/environment.prod.ts"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -43,25 +47,32 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngx-drupal8-rest:build"
+            "browserTarget": "ngx-drupal8-rest-demo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngx-drupal8-rest:build:production"
+              "browserTarget": "ngx-drupal8-rest-demo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngx-drupal8-rest:build"
+            "browserTarget": "ngx-drupal8-rest-demo:build"
           }
         },
         "test": {
@@ -72,7 +83,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": [],
             "assets": [
@@ -95,19 +106,20 @@
         }
       }
     },
-    "ngx-drupal8-rest-e2e": {
+    "ngx-drupal8-rest-demo-e2e": {
       "root": "e2e/",
       "projectType": "application",
+      "prefix": "",
       "architect": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ngx-drupal8-rest:serve"
+            "devServerTarget": "ngx-drupal8-rest-demo:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ngx-drupal8-rest:serve:production"
+              "devServerTarget": "ngx-drupal8-rest-demo:serve:production"
             }
           }
         },
@@ -121,7 +133,42 @@
           }
         }
       }
+    },
+    "ngx-drupal8-rest": {
+      "root": "projects/ngx-drupal8-rest",
+      "sourceRoot": "projects/ngx-drupal8-rest/src",
+      "projectType": "library",
+      "prefix": "nd8r",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ngx-drupal8-rest/tsconfig.lib.json",
+            "project": "projects/ngx-drupal8-rest/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-drupal8-rest/src/test.ts",
+            "tsConfig": "projects/ngx-drupal8-rest/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-drupal8-rest/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-drupal8-rest/tsconfig.lib.json",
+              "projects/ngx-drupal8-rest/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
-  "defaultProject": "ngx-drupal8-rest"
+  "defaultProject": "ngx-drupal8-rest-demo"
 }

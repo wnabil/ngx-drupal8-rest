@@ -4,12 +4,10 @@
 /dist
 /tmp
 /out-tsc
-/lib
 
 # dependencies
 /node_modules
-package-lock.json
-/demo/src/app/config.ts
+/src/app/config.ts
 
 # IDEs and editors
 /.idea
