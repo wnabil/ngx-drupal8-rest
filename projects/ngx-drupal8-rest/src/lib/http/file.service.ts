@@ -8,9 +8,7 @@ import { BaseService } from './base.service';
 import { HttpOptions, FileEntity } from '../models';
 import { DrupalConstants } from '../config';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class FileService extends BaseService {
 
   /**

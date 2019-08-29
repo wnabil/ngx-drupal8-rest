@@ -1,8 +1,14 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
-import { UserService, ViewService, BaseService, ContentService, TaxonomyService, FileService, MediaService } from './http';
 import { DrupalConstants } from './config';
+import { UserService } from './http/user.service';
+import { BaseService } from './http/base.service';
+import { ViewService } from './http/view.service';
+import { ContentService } from './http/content.service';
+import { TaxonomyService } from './http/taxonomy.service';
+import { FileService } from './http/file.service';
+import { MediaService } from './http/media.service';
 
 /**
  * implement APP_INITIALIZER
@@ -36,3 +42,13 @@ export function init(userService: UserService): () => void {
   ]
 })
 export class Drupal8RestModule { }
+
+export {
+  BaseService,
+  UserService,
+  ViewService,
+  ContentService,
+  TaxonomyService,
+  FileService,
+  MediaService,
+};

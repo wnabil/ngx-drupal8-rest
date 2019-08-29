@@ -7,9 +7,7 @@ import { Observable } from 'rxjs';
 import { BaseService } from './base.service';
 import { HttpOptions, ContentEntity, ContentType } from '../models';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ContentService extends BaseService {
 
   /**

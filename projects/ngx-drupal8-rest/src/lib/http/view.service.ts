@@ -7,9 +7,7 @@ import { Observable } from 'rxjs';
 import { BaseService } from './base.service';
 import { ViewOptions, HttpOptions, ViewEntity } from '../models';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ViewService extends BaseService {
 
   /**
