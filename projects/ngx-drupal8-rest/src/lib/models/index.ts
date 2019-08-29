@@ -6,3 +6,5 @@ export * from './view';
 export * from './content';
 export * from './taxonomy';
 export * from './file';
+export * from './media';
+

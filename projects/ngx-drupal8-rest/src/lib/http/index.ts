@@ -4,3 +4,4 @@ export * from './view.service';
 export * from './content.service';
 export * from './taxonomy.service';
 export * from './file.service';
+export * from './media.service';

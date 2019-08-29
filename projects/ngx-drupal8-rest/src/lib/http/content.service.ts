@@ -50,7 +50,7 @@ export class ContentService extends BaseService {
 
   /**
    * Implement resource /node/{node}: DELETE
-   * @param nid user id to delete
+   * @param nid content id to delete
    */
   delete(nid: number): Observable<null> {
     const httpOptions: HttpOptions = {

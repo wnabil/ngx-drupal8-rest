@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, ViewService } from 'ngx-drupal8-rest';
+import { UserService, ViewService, MediaService } from 'ngx-drupal8-rest';
 import {
   DrupalConstants, ViewOptions, UserEntity, ContentService, ContentEntity, TaxonomyService,
-  TaxonomyTermEntity, FileService, FileEntity
+  TaxonomyTermEntity, FileService, FileEntity, MediaEntity
 } from 'ngx-drupal8-rest';
 
 @Component({
@@ -19,7 +19,8 @@ export class AppComponent implements OnInit {
     private viewService: ViewService,
     private contentService: ContentService,
     private taxonomyService: TaxonomyService,
-    private fileService: FileService
+    private fileService: FileService,
+    private mediaService: MediaService,
   ) { }
 
   ngOnInit() {
@@ -236,6 +237,49 @@ export class AppComponent implements OnInit {
 
   deleteFile() {
     this.fileService.delete(3).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  createMedia() {
+    const media: MediaEntity = {
+      name: [
+        {
+          value: 'test2'
+        },
+      ],
+      bundle: [
+        {
+          target_id: 'document'
+        }
+      ]
+    };
+    this.mediaService.create(media).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  editMedia() {
+    const media: MediaEntity = {
+      name: [
+        {
+          value: 'test2'
+        },
+      ],
+      bundle: [
+        {
+          target_id: 'document'
+        }
+      ]
+    };
+
+    this.mediaService.update(129, media).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  deleteMedia() {
+    this.mediaService.delete(129).subscribe(data => {
       console.log(data);
     });
   }
