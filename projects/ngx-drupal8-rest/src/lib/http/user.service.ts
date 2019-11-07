@@ -9,9 +9,7 @@ import { HttpOptions, LoginCredentials, LoginResponse, UserEntity } from '../mod
 import { BaseService } from './base.service';
 import { DrupalConstants } from '../config';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class UserService extends BaseService {
 
   /**

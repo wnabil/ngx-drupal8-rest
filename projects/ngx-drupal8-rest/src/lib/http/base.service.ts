@@ -9,9 +9,7 @@ import { timeout } from 'rxjs/operators';
 import { HttpOptions } from '../models';
 import { DrupalConstants } from '../config';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class BaseService {
 
   constructor(

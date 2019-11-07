@@ -35,16 +35,16 @@ export interface FieldEntityReference {
   target_uuid?: string;
 }
 
-export interface FieldEntityReferenceFile extends FieldEntityReference {
+export interface FieldEntityReferenceUrl extends FieldEntityReference {
+  url: string;
+}
+
+export interface FieldEntityReferenceFile extends FieldEntityReferenceUrl {
   title: string;
   url: string;
   alt?: string;
   height?: number;
   width?: number;
-}
-
-export interface FieldEntityReferenceUser extends FieldEntityReference {
-  url: string;
 }
 
 export interface FieldComment {
