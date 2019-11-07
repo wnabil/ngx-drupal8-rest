@@ -1,6 +1,6 @@
 import {
   FieldBoolean, FieldText, FieldNumber,
-  FieldEntityReferenceUser, FieldEntityReference
+  FieldEntityReferenceUrl, FieldEntityReference
 } from './field';
 
 export interface MediaEntity {
@@ -11,10 +11,10 @@ export interface MediaEntity {
   vid?: FieldNumber[];
   langcode?: FieldText[];
   revision_created?: FieldNumber[];
-  revision_user?: FieldEntityReferenceUser[];
+  revision_user?: FieldEntityReferenceUrl[];
   revision_log_message?: FieldText[];
   status?: FieldBoolean[];
-  uid?: FieldEntityReferenceUser[];
+  uid?: FieldEntityReferenceUrl[];
   created?: FieldNumber[];
   changed?: FieldNumber[];
   default_langcode?: FieldBoolean[];

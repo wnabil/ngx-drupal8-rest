@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, ViewService, MediaService } from 'ngx-drupal8-rest';
 import {
   DrupalConstants, ViewOptions, UserEntity, ContentService, ContentEntity, TaxonomyService,
-  TaxonomyTermEntity, FileService, FileEntity, MediaEntity
+  TaxonomyTermEntity, FileService, FileEntity, MediaEntity, FlagService, UserService, ViewService,
+  MediaService, WebformService
 } from 'ngx-drupal8-rest';
 
 @Component({
@@ -21,6 +21,8 @@ export class AppComponent implements OnInit {
     private taxonomyService: TaxonomyService,
     private fileService: FileService,
     private mediaService: MediaService,
+    private flagService: FlagService,
+    private webformService: WebformService
   ) { }
 
   ngOnInit() {
@@ -29,8 +31,8 @@ export class AppComponent implements OnInit {
 
   login() {
     const user = {
-      name: 'root',
-      pass: 'root'
+      name: 'wassemkeddah',
+      pass: 'qwerty1234'
     };
     this.userService.login(user).subscribe(data => {
       console.log(data);
@@ -280,6 +282,93 @@ export class AppComponent implements OnInit {
 
   deleteMedia() {
     this.mediaService.delete(129).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  getFlag() {
+    this.fileService.get(2).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  postFlag() {
+    const flag = {
+      flag_id: 'fav_media',
+      entity_id: [
+        {
+          target_id: 53
+        }
+      ]
+    };
+    this.flagService.post(flag).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  editFlag() {
+    const media: MediaEntity = {
+      name: [
+        {
+          value: 'test2'
+        },
+      ],
+      bundle: [
+        {
+          target_id: 'document'
+        }
+      ]
+    };
+
+    this.mediaService.update(129, media).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  deleteFlag() {
+    this.mediaService.delete(129).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+
+  // Webform
+  getWebform() {
+    this.webformService.get('contact').subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  webformFields() {
+    this.webformService.fields('contact').subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  getWebformSubmission() {
+    this.webformService.getSubmission('contact', 1).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  updateWebformSubmission() {
+    const submission = {
+      name: 'test123123'
+    };
+    this.webformService.updateSubmission('contact', 1, submission).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  submitWebform() {
+    const submission = {
+      webform_id: 'contact',
+      name: 'test',
+      subject: 'test',
+      email: 'awdwad@awdwad.com',
+      message: 'awdddad'
+    };
+    this.webformService.submit(submission).subscribe(data => {
       console.log(data);
     });
   }

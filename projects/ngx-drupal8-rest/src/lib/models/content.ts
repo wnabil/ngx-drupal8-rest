@@ -1,6 +1,6 @@
 import {
   FieldTextArea, FieldDate, FieldComment, FieldBoolean, FieldText, FieldNumber, FieldPath,
-  FieldEntityReferenceUser, FieldEntityReference
+  FieldEntityReferenceUrl, FieldEntityReference
 } from './field';
 
 export interface ContentEntity {
@@ -18,10 +18,10 @@ export interface ContentEntity {
   revision_log?: FieldText[];
   revision_timestamp?: FieldDate[];
   revision_translation_affected?: FieldBoolean[];
-  revision_uid?: FieldEntityReferenceUser[];
+  revision_uid?: FieldEntityReferenceUrl[];
   status?: FieldBoolean[];
   sticky?: FieldBoolean[];
-  uid?: FieldEntityReferenceUser[];
+  uid?: FieldEntityReferenceUrl[];
   uuid?: FieldText[];
   vid?: FieldNumber[];
 }

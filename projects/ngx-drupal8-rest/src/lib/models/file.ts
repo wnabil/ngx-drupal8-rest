@@ -1,4 +1,4 @@
-import { FieldDate, FieldNumber, FieldText, FieldBoolean, FieldEntityReferenceUser, FieldURL, FieldEntityReference } from './field';
+import { FieldDate, FieldNumber, FieldText, FieldBoolean, FieldEntityReferenceUrl, FieldURL, FieldEntityReference } from './field';
 
 export interface FileEntity {
   fid?: FieldNumber[];
@@ -9,7 +9,7 @@ export interface FileEntity {
   filesize?: FieldNumber[];
   langcode?: FieldText[];
   status?: FieldBoolean[];
-  uid?: FieldEntityReferenceUser[];
+  uid?: FieldEntityReferenceUrl[];
   uri?: FieldURL[];
   uuid?: FieldText[];
 }

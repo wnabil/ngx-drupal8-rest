@@ -9,6 +9,8 @@ import { ContentService } from './http/content.service';
 import { TaxonomyService } from './http/taxonomy.service';
 import { FileService } from './http/file.service';
 import { MediaService } from './http/media.service';
+import { FlagService } from './http/flag.service';
+import { WebformService } from './http/webform.service';
 
 /**
  * implement APP_INITIALIZER
@@ -33,6 +35,8 @@ export function init(userService: UserService): () => void {
     TaxonomyService,
     FileService,
     MediaService,
+    FlagService,
+    WebformService,
     {
       'provide': APP_INITIALIZER,
       'useFactory': init,
@@ -51,4 +55,6 @@ export {
   TaxonomyService,
   FileService,
   MediaService,
+  FlagService,
+  WebformService
 };

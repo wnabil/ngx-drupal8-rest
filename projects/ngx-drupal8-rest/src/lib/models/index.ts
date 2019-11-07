@@ -7,4 +7,4 @@ export * from './content';
 export * from './taxonomy';
 export * from './file';
 export * from './media';
-
+export * from './webform';
