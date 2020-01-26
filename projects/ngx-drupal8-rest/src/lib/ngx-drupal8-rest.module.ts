@@ -11,6 +11,7 @@ import { FileService } from './http/file.service';
 import { MediaService } from './http/media.service';
 import { FlagService } from './http/flag.service';
 import { WebformService } from './http/webform.service';
+import { PushService } from './http/push.service';
 
 /**
  * implement APP_INITIALIZER
@@ -37,6 +38,7 @@ export function init(userService: UserService): () => void {
     MediaService,
     FlagService,
     WebformService,
+    PushService,
     {
       'provide': APP_INITIALIZER,
       'useFactory': init,
@@ -56,5 +58,6 @@ export {
   FileService,
   MediaService,
   FlagService,
-  WebformService
+  WebformService,
+  PushService
 };

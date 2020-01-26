@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {
   DrupalConstants, ViewOptions, UserEntity, ContentService, ContentEntity, TaxonomyService,
   TaxonomyTermEntity, FileService, FileEntity, MediaEntity, FlagService, UserService, ViewService,
-  MediaService, WebformService
+  MediaService, WebformService, PushService, PushRegistration
 } from 'ngx-drupal8-rest';
 
 @Component({
@@ -22,7 +22,8 @@ export class AppComponent implements OnInit {
     private fileService: FileService,
     private mediaService: MediaService,
     private flagService: FlagService,
-    private webformService: WebformService
+    private webformService: WebformService,
+    private pushService: PushService
   ) { }
 
   ngOnInit() {
@@ -32,7 +33,7 @@ export class AppComponent implements OnInit {
   login() {
     const user = {
       name: 'wassemkeddah',
-      pass: 'qwerty1234'
+      pass: 'qwerty12345'
     };
     this.userService.login(user).subscribe(data => {
       console.log(data);
@@ -294,12 +295,8 @@ export class AppComponent implements OnInit {
 
   postFlag() {
     const flag = {
-      flag_id: 'fav_media',
-      entity_id: [
-        {
-          target_id: 53
-        }
-      ]
+      flag_id: 'apply_deal',
+      entity_id: [293]
     };
     this.flagService.post(flag).subscribe(data => {
       console.log(data);
@@ -369,6 +366,55 @@ export class AppComponent implements OnInit {
       message: 'awdddad'
     };
     this.webformService.submit(submission).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  // push
+  createToken() {
+    const pushContent: PushRegistration = {
+      network: [
+        {
+          value: 'android',
+        }
+      ],
+      token: [
+        {
+          value: 'testoken',
+        }
+      ],
+    };
+    this.pushService.register(pushContent).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  getToken() {
+    this.pushService.get(1).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  updateToken() {
+    const pushContent: PushRegistration = {
+      network: [
+        {
+          value: 'ios',
+        }
+      ],
+      token: [
+        {
+          value: 'testoken1',
+        }
+      ],
+    };
+    this.pushService.update(1, pushContent).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  deleteToken() {
+    this.pushService.delete(1).subscribe(data => {
       console.log(data);
     });
   }
