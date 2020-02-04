@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {
   DrupalConstants, ViewOptions, UserEntity, ContentService, ContentEntity, TaxonomyService,
   TaxonomyTermEntity, FileService, FileEntity, MediaEntity, FlagService, UserService, ViewService,
-  MediaService, WebformService, PushService, PushRegistration
+  MediaService, WebformService, PushService, PushRegistration, FlagRegisteration
 } from 'ngx-drupal8-rest';
 
 @Component({
@@ -288,15 +288,17 @@ export class AppComponent implements OnInit {
   }
 
   getFlag() {
-    this.fileService.get(2).subscribe(data => {
+    this.flagService.get(19).subscribe(data => {
       console.log(data);
     });
   }
 
   postFlag() {
-    const flag = {
-      flag_id: 'apply_deal',
-      entity_id: [293]
+    const flag: FlagRegisteration = {
+      flag_id: 'fav_media',
+      entity_id: 103,
+      entity_type: 'media',
+      uid: DrupalConstants.Connection.current_user.uid
     };
     this.flagService.post(flag).subscribe(data => {
       console.log(data);
@@ -304,26 +306,20 @@ export class AppComponent implements OnInit {
   }
 
   editFlag() {
-    const media: MediaEntity = {
-      name: [
-        {
-          value: 'test2'
-        },
-      ],
-      bundle: [
-        {
-          target_id: 'document'
-        }
-      ]
+    const flag: any = {
+      flag_id: 'fav_media',
+      entity_id: 103,
+      entity_type: 'media',
+      uid: 1
     };
 
-    this.mediaService.update(129, media).subscribe(data => {
+    this.flagService.update(20, flag).subscribe(data => {
       console.log(data);
     });
   }
 
   deleteFlag() {
-    this.mediaService.delete(129).subscribe(data => {
+    this.flagService.delete(20).subscribe(data => {
       console.log(data);
     });
   }

@@ -9,3 +9,4 @@ export * from './file';
 export * from './media';
 export * from './webform';
 export * from './push';
+export * from './flag';
