@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 
 // RXJS
 import { Observable, throwError } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, mergeMap, map, catchError } from 'rxjs/operators';
 
 // Custom imports
 import { HttpOptions, LoginCredentials, LoginResponse, UserEntity } from '../models';
 import { BaseService } from './base.service';
-import { DrupalConstants } from '../config';
 
 @Injectable()
 export class UserService extends BaseService {
@@ -21,9 +20,12 @@ export class UserService extends BaseService {
     const httpOptions: HttpOptions = {
       method: 'post',
     };
-    return this.request(httpOptions, '/user/login', credentials).pipe(tap((response: LoginResponse) => {
-      // Save the response connection
-      this.saveConnection(response);
+    return this.request(httpOptions, '/user/login', credentials).pipe(mergeMap((response: LoginResponse) => {
+      return this.getToken().pipe(map((token: string) => {
+        // Save the response connection
+        this.saveConnection(response, token);
+        return response;
+      }));
     }));
   }
 
@@ -48,7 +50,12 @@ export class UserService extends BaseService {
     };
 
     // delete the saved connection after logging out
-    return this.request(httpOptions, '/user/logout').pipe(tap(this.deleteConnection));
+    return this.request(httpOptions, '/user/logout').pipe(tap(this.deleteConnection), catchError((err) => {
+      if (err && err.status === 403) {
+        this.deleteConnection();
+      }
+      throw err;
+    }));
   }
 
   /**
@@ -97,69 +104,6 @@ export class UserService extends BaseService {
       frags: [uid]
     };
     return this.request(httpOptions, '/user/{user}');
-  }
-
-  /**
-   * Check for current user if logged in or not.
-   * Based on current connection and expiration date
-   */
-  get isLoggedIn(): boolean {
-    // if the connection expired, delete the connection
-    if (this.connectionExpired) {
-      this.deleteConnection();
-      return false;
-    }
-
-    return DrupalConstants.Connection ? true : false;
-  }
-
-  /**
-   * Get current user login connection
-   */
-  get connection(): LoginResponse {
-    // get connection from localstorage
-    const connection = localStorage.getItem('connection');
-    // parse and return the data
-    return <LoginResponse>JSON.parse(connection);
-  }
-
-  /**
-   * Check if the current connection is expired
-   */
-  private get connectionExpired(): boolean {
-    // get expiration time in ms
-    const expiration = +localStorage.getItem('expiration');
-    // get current date
-    const now = new Date();
-    return expiration ? now.getTime() > expiration : true;
-  }
-
-  /**
-   * save the user login connection in localstorage and constants singleton
-   * @param data connection to be saved
-   */
-  private saveConnection(data: LoginResponse) {
-    // set the current session
-    DrupalConstants.Connection = data;
-    // save the connection in localstorage
-    localStorage.setItem('connection', JSON.stringify(data));
-    // get current time in ms
-    const now = new Date().getTime();
-    // get the future expiration time in ms
-    const expiration = now + (DrupalConstants.Settings.cookieLifetime * 1000);
-    // set the expiration time
-    localStorage.setItem('expiration', expiration.toString());
-  }
-
-  /**
-   * remove the current session details
-   */
-  private deleteConnection() {
-    // empty current session
-    DrupalConstants.Connection = undefined;
-    // removed saved data
-    localStorage.removeItem('connection');
-    localStorage.removeItem('expiration');
   }
 
 }

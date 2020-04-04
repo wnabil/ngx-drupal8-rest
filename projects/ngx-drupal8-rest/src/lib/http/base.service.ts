@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http';
 
 // RXJS
 import { Observable } from 'rxjs';
-import { timeout } from 'rxjs/operators';
+import { timeout, mergeMap, tap } from 'rxjs/operators';
 
 // Custom imports
-import { HttpOptions } from '../models';
+import { HttpOptions, LoginResponse } from '../models';
 import { DrupalConstants } from '../config';
 
 @Injectable()
@@ -15,6 +15,89 @@ export class BaseService {
   constructor(
     private httpClient: HttpClient,
   ) { }
+
+  getToken(): Observable<string> {
+    const tokenOptions: HttpOptions = {
+      method: 'get',
+      responseType: 'text'
+    };
+    return this.request(tokenOptions, '/session/token').pipe(tap(token => {
+      if (DrupalConstants.Token && token !== DrupalConstants.Token) {
+        this.deleteConnection();
+      }
+      DrupalConstants.Token = token;
+      DrupalConstants.TokenInit = true;
+      return token;
+    }));
+  }
+
+  /**
+   * Check for current user if logged in or not.
+   * Based on current connection and expiration date
+   */
+  get isLoggedIn(): boolean {
+    // if the connection expired, delete the connection
+    if (this.connectionExpired) {
+      this.deleteConnection();
+      return false;
+    }
+
+    return DrupalConstants.Connection ? true : false;
+  }
+
+  /**
+   * Get current user login connection
+   */
+  get connection(): LoginResponse {
+    DrupalConstants.Token = localStorage.getItem('token');
+    // get connection from localstorage
+    const connection = localStorage.getItem('connection');
+    // parse and return the data
+    return <LoginResponse>JSON.parse(connection);
+  }
+
+  /**
+   * Check if the current connection is expired
+   */
+  protected get connectionExpired(): boolean {
+    // get expiration time in ms
+    const expiration = +localStorage.getItem('expiration');
+    // get current date
+    const now = new Date();
+    return expiration ? now.getTime() > expiration : true;
+  }
+
+  /**
+   * save the user login connection in localstorage and constants singleton
+   * @param data connection to be saved
+   */
+  protected saveConnection(data: LoginResponse, token: string) {
+    // set the current session
+    DrupalConstants.Connection = data;
+    DrupalConstants.Token = token;
+    // save the connection in localstorage
+    localStorage.setItem('connection', JSON.stringify(data));
+    // get current time in ms
+    const now = new Date().getTime();
+    // get the future expiration time in ms
+    const expiration = now + (DrupalConstants.Settings.cookieLifetime * 1000);
+    // set the expiration time
+    localStorage.setItem('expiration', expiration.toString());
+    localStorage.setItem('token', token);
+  }
+
+  /**
+   * remove the current session details
+   */
+  protected deleteConnection() {
+    // empty current session
+    DrupalConstants.Connection = undefined;
+    DrupalConstants.Token = undefined;
+    // removed saved data
+    localStorage.removeItem('connection');
+    localStorage.removeItem('expiration');
+    localStorage.removeItem('token');
+  }
 
   /**
    * Main method for implementing all the HttpClient requests and return the results
@@ -36,7 +119,11 @@ export class BaseService {
     } else {
       request = this.httpClient[options.method](structuredResource, httpOptions);
     }
-
+    if (resource !== '/session/token' && !DrupalConstants.TokenInit) {
+      return this.getToken().pipe(mergeMap(
+        () => request.pipe(timeout(DrupalConstants.Settings.requestTimeout))
+      ));
+    }
     // Set requests time out from drupal config
     return request.pipe(timeout(DrupalConstants.Settings.requestTimeout));
   }
