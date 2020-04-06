@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {
   DrupalConstants, ViewOptions, UserEntity, ContentService, ContentEntity, TaxonomyService,
   TaxonomyTermEntity, FileService, FileEntity, MediaEntity, FlagService, UserService, ViewService,
-  MediaService, WebformService, PushService, PushRegistration, FlagRegisteration
+  MediaService, WebformService, PushService, PushRegistration, FlagRegisteration, CommerceService,
+  CommerceOrder, CartProductAdd
 } from 'ngx-drupal8-rest';
+import { CommercePayment } from 'projects/ngx-drupal8-rest/src/lib/models';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +25,8 @@ export class AppComponent implements OnInit {
     private mediaService: MediaService,
     private flagService: FlagService,
     private webformService: WebformService,
-    private pushService: PushService
+    private pushService: PushService,
+    private commerceService: CommerceService
   ) { }
 
   ngOnInit() {
@@ -415,4 +418,90 @@ export class AppComponent implements OnInit {
     });
   }
 
+
+  // commerce
+  getCart() {
+    this.commerceService.getCart().subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  getCartOrder() {
+    this.commerceService.getCartOrder(479).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  addToCart() {
+    const item: CartProductAdd[] = [{
+      purchased_entity_id: 107,
+      purchased_entity_type: 'commerce_product_variation',
+      quantity: 1,
+    }];
+    this.commerceService.addToCart(item).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  updateCartOrderItems() {
+    const items = {
+      389: { quantity: 4 },
+    };
+    this.commerceService.updateCartOrderItems(479, items).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  deleteCartOrderItem() {
+    this.commerceService.deleteCartOrderItem(479, 389).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  deleteCartOrderItems() {
+    this.commerceService.deleteCartOrderItems(479).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  createOrder() {
+    const order: CommerceOrder = {
+      order: {
+        order_items: [
+          {
+            purchased_entity: {
+              sku: 'PF-301-9330'
+            }
+          }
+        ]
+      },
+      user: {
+        mail: 'wassem@ikointl.com',
+      },
+      payment: {
+        gateway: 'decoupled_stripe',
+        type: 'credit_card',
+      }
+    };
+    this.commerceService.createOrder(order).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  createPayment() {
+    const payment: CommercePayment = {
+      gateway: 'decoupled_stripe',
+      type: 'credit_card',
+      // capture: true
+    };
+    this.commerceService.createPayment(479, payment).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  capturePayment() {
+    this.commerceService.capturePayment(479, 125).subscribe(data => {
+      console.log(data);
+    });
+  }
 }

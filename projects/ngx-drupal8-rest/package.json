@@ -1,6 +1,6 @@
 {
   "name": "ngx-drupal8-rest",
-  "version": "0.0.9-beta",
+  "version": "0.0.10-beta",
   "peerDependencies": {
     "@angular/common": "^7.0.0",
     "@angular/core": "^7.0.0"

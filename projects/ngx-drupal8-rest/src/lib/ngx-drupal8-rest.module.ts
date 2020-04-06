@@ -12,6 +12,7 @@ import { MediaService } from './http/media.service';
 import { FlagService } from './http/flag.service';
 import { WebformService } from './http/webform.service';
 import { PushService } from './http/push.service';
+import { CommerceService } from './http/commerce.service';
 
 /**
  * implement APP_INITIALIZER
@@ -39,6 +40,7 @@ export function init(userService: UserService): () => void {
     FlagService,
     WebformService,
     PushService,
+    CommerceService,
     {
       'provide': APP_INITIALIZER,
       'useFactory': init,
@@ -59,5 +61,6 @@ export {
   MediaService,
   FlagService,
   WebformService,
-  PushService
+  PushService,
+  CommerceService
 };
