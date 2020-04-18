@@ -3,7 +3,7 @@ import {
   DrupalConstants, ViewOptions, UserEntity, ContentService, ContentEntity, TaxonomyService,
   TaxonomyTermEntity, FileService, FileEntity, MediaEntity, FlagService, UserService, ViewService,
   MediaService, WebformService, PushService, PushRegistration, FlagRegisteration, CommerceService,
-  CommerceOrder, CartProductAdd
+  CommerceOrder, CartProductAdd, CommentService
 } from 'ngx-drupal8-rest';
 import { CommercePayment } from 'projects/ngx-drupal8-rest/src/lib/models';
 
@@ -26,7 +26,8 @@ export class AppComponent implements OnInit {
     private flagService: FlagService,
     private webformService: WebformService,
     private pushService: PushService,
-    private commerceService: CommerceService
+    private commerceService: CommerceService,
+    private commentService: CommentService
   ) { }
 
   ngOnInit() {
@@ -504,4 +505,44 @@ export class AppComponent implements OnInit {
       console.log(data);
     });
   }
+  // comment
+
+  getComment() {
+    this.commentService.getById(1).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  deleteComment() {
+    this.commentService.delete(1).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  updateComment() {
+    const comment = {
+      comment_type: 'issue',
+      subject: 'updated subject',
+      comment_body: 'updated body'
+    };
+    this.commentService.update(1, comment).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  getCommentType() {
+    this.commentService.getType('recreational_feedback').subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  createComment() {
+    const comment = {
+
+    }
+    this.commentService.create(comment).subscribe(data => {
+      console.log(data);
+    });
+  }
+
 }

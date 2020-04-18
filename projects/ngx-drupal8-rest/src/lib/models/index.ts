@@ -11,3 +11,4 @@ export * from './webform';
 export * from './push';
 export * from './flag';
 export * from './commerce';
+export * from './comment';
