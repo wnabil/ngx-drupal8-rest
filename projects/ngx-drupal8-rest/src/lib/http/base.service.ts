@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 // RXJS
@@ -8,12 +8,14 @@ import { timeout, mergeMap, tap } from 'rxjs/operators';
 // Custom imports
 import { HttpOptions, LoginResponse } from '../models';
 import { DrupalConstants } from '../config';
+import { isPlatformServer} from '@angular/common';
 
 @Injectable()
 export class BaseService {
 
   constructor(
     private httpClient: HttpClient,
+    @Inject(PLATFORM_ID) private platform: string,
   ) { }
 
   getToken(): Observable<string> {
@@ -49,22 +51,26 @@ export class BaseService {
    * Get current user login connection
    */
   get connection(): LoginResponse {
-    DrupalConstants.Token = localStorage.getItem('token');
-    // get connection from localstorage
-    const connection = localStorage.getItem('connection');
-    // parse and return the data
-    return <LoginResponse>JSON.parse(connection);
+    if (!isPlatformServer(this.platform)) {
+      DrupalConstants.Token = localStorage.getItem('token');
+      // get connection from localstorage
+      const connection = localStorage.getItem('connection');
+      // parse and return the data
+      return <LoginResponse>JSON.parse(connection);
+    }
   }
 
   /**
    * Check if the current connection is expired
    */
   protected get connectionExpired(): boolean {
-    // get expiration time in ms
-    const expiration = +localStorage.getItem('expiration');
-    // get current date
-    const now = new Date();
-    return expiration ? now.getTime() > expiration : true;
+    if (!isPlatformServer(this.platform)) {
+      // get expiration time in ms
+      const expiration = +localStorage.getItem('expiration');
+      // get current date
+      const now = new Date();
+      return expiration ? now.getTime() > expiration : true;
+    }
   }
 
   /**
@@ -72,31 +78,35 @@ export class BaseService {
    * @param data connection to be saved
    */
   protected saveConnection(data: LoginResponse, token: string) {
-    // set the current session
-    DrupalConstants.Connection = data;
-    DrupalConstants.Token = token;
-    // save the connection in localstorage
-    localStorage.setItem('connection', JSON.stringify(data));
-    // get current time in ms
-    const now = new Date().getTime();
-    // get the future expiration time in ms
-    const expiration = now + (DrupalConstants.Settings.cookieLifetime * 1000);
-    // set the expiration time
-    localStorage.setItem('expiration', expiration.toString());
-    localStorage.setItem('token', token);
+    if (!isPlatformServer(this.platform)) {
+      // set the current session
+      DrupalConstants.Connection = data;
+      DrupalConstants.Token = token;
+      // save the connection in localstorage
+      localStorage.setItem('connection', JSON.stringify(data));
+      // get current time in ms
+      const now = new Date().getTime();
+      // get the future expiration time in ms
+      const expiration = now + (DrupalConstants.Settings.cookieLifetime * 1000);
+      // set the expiration time
+      localStorage.setItem('expiration', expiration.toString());
+      localStorage.setItem('token', token);
+    }
   }
 
   /**
    * remove the current session details
    */
   protected deleteConnection() {
-    // empty current session
-    DrupalConstants.Connection = undefined;
-    DrupalConstants.Token = undefined;
-    // removed saved data
-    localStorage.removeItem('connection');
-    localStorage.removeItem('expiration');
-    localStorage.removeItem('token');
+    if (!isPlatformServer(this.platform)) {
+      // empty current session
+      DrupalConstants.Connection = undefined;
+      DrupalConstants.Token = undefined;
+      // removed saved data
+      localStorage.removeItem('connection');
+      localStorage.removeItem('expiration');
+      localStorage.removeItem('token');
+    }
   }
 
   /**
