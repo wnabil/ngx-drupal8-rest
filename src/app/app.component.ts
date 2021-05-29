@@ -248,6 +248,12 @@ export class AppComponent implements OnInit {
     });
   }
 
+  getMedia() {
+    this.mediaService.get(1).subscribe(data => {
+      console.log(data);
+    });
+  }
+
   createMedia() {
     const media: MediaEntity = {
       name: [
@@ -343,7 +349,7 @@ export class AppComponent implements OnInit {
   }
 
   getWebformSubmission() {
-    this.webformService.getSubmission('contact', 1).subscribe(data => {
+    this.webformService.getSubmission('contact', 'uuid').subscribe(data => {
       console.log(data);
     });
   }
@@ -352,7 +358,7 @@ export class AppComponent implements OnInit {
     const submission = {
       name: 'test123123'
     };
-    this.webformService.updateSubmission('contact', 1, submission).subscribe(data => {
+    this.webformService.updateSubmission('contact', 'uuid', submission).subscribe(data => {
       console.log(data);
     });
   }
@@ -538,8 +544,8 @@ export class AppComponent implements OnInit {
 
   createComment() {
     const comment = {
-
-    }
+      comment_type: 'comment'
+    };
     this.commentService.create(comment).subscribe(data => {
       console.log(data);
     });

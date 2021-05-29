@@ -106,4 +106,15 @@ export class UserService extends BaseService {
     return this.request(httpOptions, '/user/{user}');
   }
 
+  /**
+     * Implement resource /user/register: POST
+     * @param user user info object to register
+     */
+  register(user: { name: string, pass: string, mail: string }): Observable<UserEntity> {
+    const httpOptions: HttpOptions = {
+      method: 'post',
+    };
+    return this.request(httpOptions, '/user/register', user);
+  }
+
 }

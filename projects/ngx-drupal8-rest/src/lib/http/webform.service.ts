@@ -39,7 +39,7 @@ export class WebformService extends BaseService {
    * @param machineName the webform machine name
    * @param sid the webform submittion id
    */
-  getSubmission(machineName: string, sid: number): Observable<WebformSubmission> {
+  getSubmission(machineName: string, sid: string): Observable<WebformSubmission> {
     const httpOptions: HttpOptions = {
       method: 'get',
       frags: [machineName, sid.toString()]
@@ -53,7 +53,7 @@ export class WebformService extends BaseService {
    * @param sid the webform submittion id
    * @param webformSubmission the submission content object of fields
    */
-  updateSubmission(machineName: string, sid: number, webformSubmission: any): Observable<{ sid: number } | { error: { message: string } }> {
+  updateSubmission(machineName: string, sid: string, webformSubmission: any): Observable<{ sid: string } | { error: { message: string } }> {
     const httpOptions: HttpOptions = {
       method: 'patch',
       frags: [machineName, sid.toString()]
@@ -66,7 +66,7 @@ export class WebformService extends BaseService {
    * @param webformSubmission the submission content object of fields
    * All required fields should be added or the request will return error 400 :/
    */
-  submit(webformSubmission: { webform_id: string, [key: string]: any }): Observable<{ sid: number }> {
+  submit(webformSubmission: { webform_id: string, [key: string]: any }): Observable<{ sid: string }> {
     const httpOptions: HttpOptions = {
       method: 'post',
     };
