@@ -8,3 +8,7 @@ export * from './taxonomy';
 export * from './file';
 export * from './media';
 export * from './webform';
+export * from './push';
+export * from './flag';
+export * from './commerce';
+export * from './comment';

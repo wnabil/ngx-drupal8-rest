@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {
   DrupalConstants, ViewOptions, UserEntity, ContentService, ContentEntity, TaxonomyService,
   TaxonomyTermEntity, FileService, FileEntity, MediaEntity, FlagService, UserService, ViewService,
-  MediaService, WebformService
+  MediaService, WebformService, PushService, PushRegistration, FlagRegisteration, CommerceService,
+  CommerceOrder, CartProductAdd, CommentService
 } from 'ngx-drupal8-rest';
+import { CommercePayment } from 'projects/ngx-drupal8-rest/src/lib/models';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +24,10 @@ export class AppComponent implements OnInit {
     private fileService: FileService,
     private mediaService: MediaService,
     private flagService: FlagService,
-    private webformService: WebformService
+    private webformService: WebformService,
+    private pushService: PushService,
+    private commerceService: CommerceService,
+    private commentService: CommentService
   ) { }
 
   ngOnInit() {
@@ -32,7 +37,7 @@ export class AppComponent implements OnInit {
   login() {
     const user = {
       name: 'wassemkeddah',
-      pass: 'qwerty1234'
+      pass: 'qwerty12345'
     };
     this.userService.login(user).subscribe(data => {
       console.log(data);
@@ -243,6 +248,12 @@ export class AppComponent implements OnInit {
     });
   }
 
+  getMedia() {
+    this.mediaService.get(1).subscribe(data => {
+      console.log(data);
+    });
+  }
+
   createMedia() {
     const media: MediaEntity = {
       name: [
@@ -287,19 +298,17 @@ export class AppComponent implements OnInit {
   }
 
   getFlag() {
-    this.fileService.get(2).subscribe(data => {
+    this.flagService.get(19).subscribe(data => {
       console.log(data);
     });
   }
 
   postFlag() {
-    const flag = {
+    const flag: FlagRegisteration = {
       flag_id: 'fav_media',
-      entity_id: [
-        {
-          target_id: 53
-        }
-      ]
+      entity_id: 103,
+      entity_type: 'media',
+      uid: DrupalConstants.Connection.current_user.uid
     };
     this.flagService.post(flag).subscribe(data => {
       console.log(data);
@@ -307,26 +316,20 @@ export class AppComponent implements OnInit {
   }
 
   editFlag() {
-    const media: MediaEntity = {
-      name: [
-        {
-          value: 'test2'
-        },
-      ],
-      bundle: [
-        {
-          target_id: 'document'
-        }
-      ]
+    const flag: any = {
+      flag_id: 'fav_media',
+      entity_id: 103,
+      entity_type: 'media',
+      uid: 1
     };
 
-    this.mediaService.update(129, media).subscribe(data => {
+    this.flagService.update(20, flag).subscribe(data => {
       console.log(data);
     });
   }
 
   deleteFlag() {
-    this.mediaService.delete(129).subscribe(data => {
+    this.flagService.delete(20).subscribe(data => {
       console.log(data);
     });
   }
@@ -346,7 +349,7 @@ export class AppComponent implements OnInit {
   }
 
   getWebformSubmission() {
-    this.webformService.getSubmission('contact', 1).subscribe(data => {
+    this.webformService.getSubmission('contact', 'uuid').subscribe(data => {
       console.log(data);
     });
   }
@@ -355,7 +358,7 @@ export class AppComponent implements OnInit {
     const submission = {
       name: 'test123123'
     };
-    this.webformService.updateSubmission('contact', 1, submission).subscribe(data => {
+    this.webformService.updateSubmission('contact', 'uuid', submission).subscribe(data => {
       console.log(data);
     });
   }
@@ -369,6 +372,181 @@ export class AppComponent implements OnInit {
       message: 'awdddad'
     };
     this.webformService.submit(submission).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  // push
+  createToken() {
+    const pushContent: PushRegistration = {
+      network: [
+        {
+          value: 'android',
+        }
+      ],
+      token: [
+        {
+          value: 'testoken',
+        }
+      ],
+    };
+    this.pushService.register(pushContent).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  getToken() {
+    this.pushService.get(1).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  updateToken() {
+    const pushContent: PushRegistration = {
+      network: [
+        {
+          value: 'ios',
+        }
+      ],
+      token: [
+        {
+          value: 'testoken1',
+        }
+      ],
+    };
+    this.pushService.update(1, pushContent).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  deleteToken() {
+    this.pushService.delete(1).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+
+  // commerce
+  getCart() {
+    this.commerceService.getCart().subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  getCartOrder() {
+    this.commerceService.getCartOrder(479).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  addToCart() {
+    const item: CartProductAdd[] = [{
+      purchased_entity_id: 107,
+      purchased_entity_type: 'commerce_product_variation',
+      quantity: 1,
+    }];
+    this.commerceService.addToCart(item).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  updateCartOrderItems() {
+    const items = {
+      389: { quantity: 4 },
+    };
+    this.commerceService.updateCartOrderItems(479, items).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  deleteCartOrderItem() {
+    this.commerceService.deleteCartOrderItem(479, 389).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  deleteCartOrderItems() {
+    this.commerceService.deleteCartOrderItems(479).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  createOrder() {
+    const order: CommerceOrder = {
+      order: {
+        order_items: [
+          {
+            purchased_entity: {
+              sku: 'PF-301-9330'
+            }
+          }
+        ]
+      },
+      user: {
+        mail: 'wassem@ikointl.com',
+      },
+      payment: {
+        gateway: 'decoupled_stripe',
+        type: 'credit_card',
+      }
+    };
+    this.commerceService.createOrder(order).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  createPayment() {
+    const payment: CommercePayment = {
+      gateway: 'decoupled_stripe',
+      type: 'credit_card',
+      // capture: true
+    };
+    this.commerceService.createPayment(479, payment).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  capturePayment() {
+    this.commerceService.capturePayment(479, 125).subscribe(data => {
+      console.log(data);
+    });
+  }
+  // comment
+
+  getComment() {
+    this.commentService.getById(1).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  deleteComment() {
+    this.commentService.delete(1).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  updateComment() {
+    const comment = {
+      comment_type: 'issue',
+      subject: 'updated subject',
+      comment_body: 'updated body'
+    };
+    this.commentService.update(1, comment).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  getCommentType() {
+    this.commentService.getType('recreational_feedback').subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  createComment() {
+    const comment = {
+      comment_type: 'comment'
+    };
+    this.commentService.create(comment).subscribe(data => {
       console.log(data);
     });
   }

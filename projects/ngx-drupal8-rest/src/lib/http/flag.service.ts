@@ -5,28 +5,48 @@ import { Observable } from 'rxjs';
 
 // Custom imports
 import { BaseService } from './base.service';
-import { HttpOptions } from '../models';
+import { HttpOptions, FlagRegisteration, FlagEntity } from '../models';
 
 @Injectable()
 export class FlagService extends BaseService {
 
   /**
    * Implement resource /entity/flagging/{flagging}: GET
-   * @param fid the file id
+   * @param fid the flag id
    */
-  get() {
-
+  get(fid: number): Observable<FlagEntity> {
+    const httpOptions: HttpOptions = {
+      method: 'get',
+      frags: [fid]
+    };
+    return this.request(httpOptions, '/entity/flagging/{flagging}');
   }
 
   /**
    * Implement resource /entity/flagging: POST
    * @param flag: flag content
    */
-  post(flag: any) {
+  post(flag: FlagRegisteration): Observable<FlagEntity> {
     const httpOptions: HttpOptions = {
       method: 'post',
     };
     return this.request(httpOptions, '/entity/flagging', flag);
+  }
+
+  update(fid: number, flag: FlagEntity): Observable<FlagEntity> {
+    const httpOptions: HttpOptions = {
+      method: 'patch',
+      frags: [fid]
+    };
+    return this.request(httpOptions, '/entity/flagging/{flagging}', flag);
+  }
+
+  delete(fid: number): Observable<null> {
+    const httpOptions: HttpOptions = {
+      method: 'delete',
+      frags: [fid]
+    };
+    return this.request(httpOptions, '/entity/flagging/{flagging}');
   }
 
 }

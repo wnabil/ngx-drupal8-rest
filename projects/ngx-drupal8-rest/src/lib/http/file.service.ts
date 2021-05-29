@@ -33,7 +33,7 @@ export class FileService extends BaseService {
       frags: [entityType, bundle, fieldName],
       headers: {
         'Content-Type': 'application/octet-stream',
-        'Content-Disposition': `filename="${file.name}"`
+        'Content-Disposition': `file; filename="${file.name}"`
       },
     };
 

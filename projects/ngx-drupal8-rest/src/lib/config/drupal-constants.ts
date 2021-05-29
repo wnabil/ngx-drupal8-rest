@@ -7,6 +7,8 @@ export class DrupalConstants {
   // props
   private settings: Settings;
   private connection: LoginResponse;
+  private token: string;
+  private tokenInit = false;
 
   /**
    * Init the module with Drupal 8 website configs
@@ -23,6 +25,25 @@ export class DrupalConstants {
       settings.cookieLifetime = 2000000;
     }
     this.Instance.settings = settings;
+  }
+
+  static get Token(): string {
+    return this.Instance.token;
+  }
+
+  static set Token(value: string) {
+    if (!value) {
+      this.TokenInit = false;
+    }
+    this.Instance.token = value;
+  }
+
+  static get TokenInit(): boolean {
+    return this.Instance.tokenInit;
+  }
+
+  static set TokenInit(value: boolean) {
+    this.Instance.tokenInit = value;
   }
 
   /**
