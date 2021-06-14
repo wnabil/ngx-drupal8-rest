@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 // Custom imports
 import { BaseService } from './base.service';
 import { HttpOptions, WebformEntity, WebformFields, WebformSubmission } from '../models';
+import { DrupalConstants } from '../config';
 
 @Injectable()
 export class WebformService extends BaseService {
@@ -71,5 +72,26 @@ export class WebformService extends BaseService {
       method: 'post',
     };
     return this.request(httpOptions, '/webform_rest/submit', webformSubmission);
+  }
+
+  /**
+   * Implement resource /webform_rest/{webform_id}/upload/{field_name}: POST
+   * @param file the file to upload
+   */
+  upload(machineName: string, fieldName: string, file: File) {
+    const httpOptions: HttpOptions = {
+      method: 'post',
+      frags: [machineName, fieldName],
+      headers: {
+        'Content-Type': 'application/octet-stream',
+        'Content-Disposition': `file; filename="${file.name}"`
+      },
+    };
+
+    // If the user is logged in, add the CSRF header token
+    if (DrupalConstants.Connection && DrupalConstants.Connection.csrf_token) {
+      httpOptions.headers['X-CSRF-Token'] = DrupalConstants.Connection.csrf_token;
+    }
+    return this.request(httpOptions, '/webform_rest/{webform_id}/upload/{field_name}', file);
   }
 }
