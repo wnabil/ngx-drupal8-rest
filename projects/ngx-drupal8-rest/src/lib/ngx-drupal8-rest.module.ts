@@ -14,6 +14,7 @@ import { WebformService } from './http/webform.service';
 import { PushService } from './http/push.service';
 import { CommerceService } from './http/commerce.service';
 import { CommentService } from './http/comment.service';
+import { QuizService } from './http/quiz.service';
 
 /**
  * implement APP_INITIALIZER
@@ -43,6 +44,7 @@ export function init(userService: UserService): () => void {
     PushService,
     CommerceService,
     CommentService,
+    QuizService,
     {
       'provide': APP_INITIALIZER,
       'useFactory': init,
@@ -65,5 +67,6 @@ export {
   WebformService,
   PushService,
   CommerceService,
-  CommentService
+  CommentService,
+  QuizService
 };
