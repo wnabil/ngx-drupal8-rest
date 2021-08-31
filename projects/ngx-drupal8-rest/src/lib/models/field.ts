@@ -67,3 +67,14 @@ export interface ValueEndValue {
   value?: string;
   end_value?: string;
 }
+
+export interface EntityBundleType {
+  uuid: string;
+  langcode: string;
+  status: boolean;
+  dependencies: {
+    [key: string]: { [key: string]: string[] };
+  };
+  id: string;
+  label: string;
+}

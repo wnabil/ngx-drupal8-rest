@@ -5,11 +5,19 @@ import { Observable } from 'rxjs';
 
 // Custom imports
 import { BaseService } from './base.service';
-import { QuizEntity, HttpOptions, QuizFeedbackTypeEntity, QuizQuestionEntity } from '../models';
+import {
+  QuizEntity,
+  HttpOptions,
+  QuizFeedbackTypeEntity,
+  QuizQuestionEntity,
+  EntityBundleType,
+  QuizQuestionRelationshipEntity,
+  QuizResultEntity,
+  QuizResultAnswerEntity,
+} from '../models';
 
 @Injectable()
 export class QuizService extends BaseService {
-
   /**
    * Implements /quiz/{quiz}: GET
    * Returns quiz entity
@@ -19,9 +27,9 @@ export class QuizService extends BaseService {
     const httpOptions: HttpOptions = {
       method: 'get',
       params: {
-        '_format': 'json'
+        _format: 'json',
       },
-      frags: [qid]
+      frags: [qid],
     };
 
     return this.request(httpOptions, '/quiz/{quiz}');
@@ -32,11 +40,11 @@ export class QuizService extends BaseService {
    * Returns quiz created entity
    * @param quiz the quiz entity with updated values
    */
-   create(quiz: QuizEntity): Observable<QuizEntity> {
+  create(quiz: QuizEntity): Observable<QuizEntity> {
     const httpOptions: HttpOptions = {
       method: 'post',
       params: {
-        '_format': 'json'
+        _format: 'json',
       },
     };
 
@@ -49,13 +57,13 @@ export class QuizService extends BaseService {
    * @param qid the quiz entity ID
    * @param quiz the quiz entity with updated values
    */
-   update(qid: number, quiz: QuizEntity): Observable<QuizEntity> {
+  update(qid: number, quiz: QuizEntity): Observable<QuizEntity> {
     const httpOptions: HttpOptions = {
       method: 'patch',
       params: {
-        '_format': 'json'
+        _format: 'json',
       },
-      frags: [qid]
+      frags: [qid],
     };
 
     return this.request(httpOptions, '/quiz/{quiz}', quiz);
@@ -65,16 +73,33 @@ export class QuizService extends BaseService {
    * Implements /quiz/{quiz}: DELETE
    * @param qid the quiz entity ID
    */
-   delete(qid: number): Observable<null> {
+  delete(qid: number): Observable<null> {
     const httpOptions: HttpOptions = {
       method: 'delete',
       params: {
-        '_format': 'json'
+        _format: 'json',
       },
-      frags: [qid]
+      frags: [qid],
     };
 
     return this.request(httpOptions, '/quiz/{quiz}');
+  }
+
+  /**
+   * Implements /entity/quiz_type/{quiz_type}: GET
+   * Returns quiz type
+   * @param quizMachineName the quiz type machine name
+   */
+  getType(quizMachineName: string): Observable<EntityBundleType> {
+    const httpOptions: HttpOptions = {
+      method: 'get',
+      params: {
+        _format: 'json',
+      },
+      frags: [quizMachineName],
+    };
+
+    return this.request(httpOptions, '/entity/quiz_type/{quiz_type}');
   }
 
   /**
@@ -82,16 +107,21 @@ export class QuizService extends BaseService {
    * Returns quiz feedback type
    * @param feedbackMachineName the feedback type machine name
    */
-   getFeedbackType(feedbackMachineName: string): Observable<QuizFeedbackTypeEntity> {
+  getFeedbackType(
+    feedbackMachineName: string
+  ): Observable<QuizFeedbackTypeEntity> {
     const httpOptions: HttpOptions = {
       method: 'get',
       params: {
-        '_format': 'json'
+        _format: 'json',
       },
-      frags: [feedbackMachineName]
+      frags: [feedbackMachineName],
     };
 
-    return this.request(httpOptions, '/entity/quiz_feedback_type/{quiz_feedback_type}');
+    return this.request(
+      httpOptions,
+      '/entity/quiz_feedback_type/{quiz_feedback_type}'
+    );
   }
 
   // Question
@@ -101,13 +131,13 @@ export class QuizService extends BaseService {
    * Returns quiz question entity
    * @param qqid the quiz question entity ID
    */
-   getQuestion(qqid: number): Observable<QuizQuestionEntity> {
+  getQuestion(qqid: number): Observable<QuizQuestionEntity> {
     const httpOptions: HttpOptions = {
       method: 'get',
       params: {
-        '_format': 'json'
+        _format: 'json',
       },
-      frags: [qqid]
+      frags: [qqid],
     };
 
     return this.request(httpOptions, '/quiz-question/{quiz_question}');
@@ -118,11 +148,11 @@ export class QuizService extends BaseService {
    * Returns question created entity
    * @param question the quiz question entity to create
    */
-   createQuestion(question: QuizQuestionEntity): Observable<QuizQuestionEntity> {
+  createQuestion(question: QuizQuestionEntity): Observable<QuizQuestionEntity> {
     const httpOptions: HttpOptions = {
       method: 'post',
       params: {
-        '_format': 'json'
+        _format: 'json',
       },
     };
 
@@ -135,50 +165,313 @@ export class QuizService extends BaseService {
    * @param qqid the quiz question entity ID
    * @param question the quiz question entity with updated values
    */
-   updateQuestion(qqid: number, question: QuizQuestionEntity): Observable<QuizQuestionEntity> {
+  updateQuestion(
+    qqid: number,
+    question: QuizQuestionEntity
+  ): Observable<QuizQuestionEntity> {
     const httpOptions: HttpOptions = {
       method: 'patch',
       params: {
-        '_format': 'json'
+        _format: 'json',
       },
-      frags: [qqid]
+      frags: [qqid],
     };
 
-    return this.request(httpOptions, '/quiz-question/{quiz_question}', question);
+    return this.request(
+      httpOptions,
+      '/quiz-question/{quiz_question}',
+      question
+    );
   }
 
   /**
    * Implements /quiz-question/{quiz_question}: DELETE
    * @param qqid the question entity ID
    */
-   deleteQuestion(qqid: number): Observable<null> {
+  deleteQuestion(qqid: number): Observable<null> {
     const httpOptions: HttpOptions = {
       method: 'delete',
       params: {
-        '_format': 'json'
+        _format: 'json',
       },
-      frags: [qqid]
+      frags: [qqid],
     };
 
     return this.request(httpOptions, '/quiz-question/{quiz_question}');
   }
 
-  // /**
-  //  * Implements /entity/quiz_feedback_type/{quiz_feedback_type}: GET
-  //  * Returns quiz feedback type
-  //  * @param feedbackMachineName the type machine name
-  //  */
-  //  getQuestionFeedbackType(feedbackMachineName: string): Observable<QuizFeedbackTypeEntity> {
-  //   const httpOptions: HttpOptions = {
-  //     method: 'get',
-  //     params: {
-  //       '_format': 'json'
-  //     },
-  //     frags: [feedbackMachineName]
-  //   };
+  /**
+   * Implements /entity/quiz_question_type/{quiz_question_type}: GET
+   * Returns quiz question type
+   * @param feedbackMachineName the type machine name
+   */
+  getQuestionType(typeMachineName: string): Observable<EntityBundleType> {
+    const httpOptions: HttpOptions = {
+      method: 'get',
+      params: {
+        _format: 'json',
+      },
+      frags: [typeMachineName],
+    };
 
-  //   return this.request(httpOptions, '/entity/quiz_feedback_type/{quiz_feedback_type}');
-  // }
+    return this.request(
+      httpOptions,
+      '/entity/quiz_question_type/{quiz_question_type}'
+    );
+  }
+
+  // Relationship
+
+  /**
+   * Implements /quiz-question-relationship/{quiz_question_relationship}: GET
+   * Returns quiz question relationship entity
+   * @param qqrid the quiz question relationship entity ID 'question id'
+   */
+  getQuestionRelationship(
+    qqrid: number
+  ): Observable<QuizQuestionRelationshipEntity> {
+    const httpOptions: HttpOptions = {
+      method: 'get',
+      params: {
+        _format: 'json',
+      },
+      frags: [qqrid],
+    };
+
+    return this.request(
+      httpOptions,
+      '/quiz-question-relationship/{quiz_question_relationship}'
+    );
+  }
+
+  /**
+   * Implements /quiz-question-relationship/{quiz_question_relationship}: POST
+   * Returns quiz question relationship created entity
+   * @param questionRelationship the quiz question relationship entity to create
+   */
+  createQuestionRelationship(
+    questionRelationship: QuizQuestionRelationshipEntity
+  ): Observable<QuizQuestionRelationshipEntity> {
+    const httpOptions: HttpOptions = {
+      method: 'post',
+      params: {
+        _format: 'json',
+      },
+    };
+
+    return this.request(
+      httpOptions,
+      '/entity/quiz_question_relationship',
+      questionRelationship
+    );
+  }
+
+  /**
+   * Implements /quiz-question-relationship/{quiz_question_relationship}: PATCH
+   * Returns quiz question relationship updated entity
+   * @param qqrid the quiz question relationship entity ID 'question id'
+   * @param questionRelationship the quiz question relationship updated entity
+   */
+  updateQuestionRelationship(
+    qqrid: number,
+    questionRelationship: QuizQuestionRelationshipEntity
+  ): Observable<QuizQuestionRelationshipEntity> {
+    const httpOptions: HttpOptions = {
+      method: 'patch',
+      params: {
+        _format: 'json',
+      },
+      frags: [qqrid],
+    };
+
+    return this.request(
+      httpOptions,
+      '/quiz-question-relationship/{quiz_question_relationship}',
+      questionRelationship
+    );
+  }
+
+  /**
+   * Implements /quiz-question-relationship/{quiz_question_relationship}: DELETE
+   * @param qqrid the quiz question relationship entity ID 'question id'
+   */
+  deleteQuestionRelationship(qqrid: number): Observable<null> {
+    const httpOptions: HttpOptions = {
+      method: 'delete',
+      params: {
+        _format: 'json',
+      },
+      frags: [qqrid],
+    };
+
+    return this.request(
+      httpOptions,
+      '/quiz-question-relationship/{quiz_question_relationship}'
+    );
+  }
 
   // Result
+
+  /**
+   * Implements /quiz/{quiz}/result/{quiz_result}: GET
+   * Returns quiz result entity
+   * @param qid the quiz entity ID
+   * @param qrid the quiz result entity ID
+   */
+  getResult(qid: number, qrid: number): Observable<QuizResultEntity> {
+    const httpOptions: HttpOptions = {
+      method: 'get',
+      params: {
+        _format: 'json',
+      },
+      frags: [qid, qrid],
+    };
+
+    return this.request(httpOptions, '/quiz/{quiz}/result/{quiz_result}');
+  }
+
+  /**
+   * Implements /entity/quiz_result: POST
+   * Returns quiz result created entity
+   * @param result the quiz result entity
+   */
+  createResult(result: QuizResultEntity): Observable<QuizResultEntity> {
+    const httpOptions: HttpOptions = {
+      method: 'post',
+      params: {
+        _format: 'json',
+      },
+    };
+
+    return this.request(httpOptions, '/entity/quiz_result', result);
+  }
+
+  /**
+   * Implements /quiz/{quiz}/result/{quiz_result}: PATCH
+   * Returns quiz result updated entity
+   * @param qid the quiz entity ID
+   * @param qrid the quiz result entity ID
+   * @param result the quiz result updated entity
+   */
+   updateResult(qid: number, qrid: number, result: QuizResultEntity): Observable<QuizResultEntity> {
+    const httpOptions: HttpOptions = {
+      method: 'patch',
+      params: {
+        _format: 'json',
+      },
+      frags: [qid, qrid]
+    };
+
+    return this.request(httpOptions, '/quiz/{quiz}/result/{quiz_result}', result);
+  }
+
+  /**
+   * Implements /quiz/{quiz}/result/{quiz_result}: DELETE
+   * @param qid the quiz entity ID
+   * @param qrid the quiz result entity ID
+   */
+   deleteResult(qid: number, qrid: number): Observable<null> {
+    const httpOptions: HttpOptions = {
+      method: 'delete',
+      params: {
+        _format: 'json',
+      },
+      frags: [qid, qrid]
+    };
+
+    return this.request(httpOptions, '/quiz/{quiz}/result/{quiz_result}');
+  }
+
+  /**
+   * Implements /entity/quiz_result_type/{quiz_result_type}: GET
+   * Returns quiz result type
+   * @param resultMachineName the type machine name
+   */
+   getResultType(resultMachineName: string): Observable<EntityBundleType> {
+    const httpOptions: HttpOptions = {
+      method: 'get',
+      params: {
+        _format: 'json',
+      },
+      frags: [resultMachineName],
+    };
+
+    return this.request(
+      httpOptions,
+      '/entity/quiz_result_type/{quiz_result_type}'
+    );
+  }
+
+  // Result answer TODO
+
+  /**
+   * Implements /quiz/{quiz}/result/{quiz_result}/answer/{quiz_result_answer}: GET
+   * Returns quiz result answer entity
+   * @param qid the quiz entity ID
+   * @param qrid the quiz result entity ID
+   * @param qrid the quiz result answer entity ID
+   */
+   getResultAnswer(qid: number, qrid: number, raid: number): Observable<QuizResultAnswerEntity> {
+    const httpOptions: HttpOptions = {
+      method: 'get',
+      params: {
+        _format: 'json',
+      },
+      frags: [qid, qrid, raid],
+    };
+
+    return this.request(httpOptions, '/quiz/{quiz}/result/{quiz_result}/answer/{quiz_result_answer}');
+  }
+
+  /**
+   * Implements /entity/quiz_result: POST
+   * Returns quiz result created entity
+   * @param result the quiz result entity
+   */
+  createResultAnswer(result: QuizResultAnswerEntity): Observable<QuizResultAnswerEntity> {
+    const httpOptions: HttpOptions = {
+      method: 'post',
+      params: {
+        _format: 'json',
+      },
+    };
+
+    return this.request(httpOptions, '/entity/quiz_result', result);
+  }
+
+  /**
+   * Implements /quiz/{quiz}/result/{quiz_result}/answer/{quiz_result_answer}: PATCH
+   * Returns quiz result updated entity
+   * @param qid the quiz entity ID
+   * @param qrid the quiz result entity ID
+   * @param result the quiz result updated entity
+   */
+   updateResultAnswer(qid: number, qrid: number, result: QuizResultAnswerEntity): Observable<QuizResultAnswerEntity> {
+    const httpOptions: HttpOptions = {
+      method: 'patch',
+      params: {
+        _format: 'json',
+      },
+      frags: [qid, qrid]
+    };
+
+    return this.request(httpOptions, '/quiz/{quiz}/result/{quiz_result}/answer/{quiz_result_answer}', result);
+  }
+
+  /**
+   * Implements /quiz/{quiz}/result/{quiz_result}/answer/{quiz_result_answer}: DELETE
+   * @param qid the quiz entity ID
+   * @param qrid the quiz result entity ID
+   */
+   deleteResultAnswer(qid: number, qrid: number): Observable<null> {
+    const httpOptions: HttpOptions = {
+      method: 'delete',
+      params: {
+        _format: 'json',
+      },
+      frags: [qid, qrid]
+    };
+
+    return this.request(httpOptions, '/quiz/{quiz}/result/{quiz_result}/answer/{quiz_result_answer}');
+  }
 }

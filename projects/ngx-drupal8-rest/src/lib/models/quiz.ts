@@ -1,4 +1,5 @@
 import {
+  EntityBundleType,
   FieldBoolean,
   FieldEntityReference,
   FieldEntityReferenceUrl,
@@ -53,13 +54,7 @@ export interface QuizEntity {
   [key: string]: any[]; // custom fields
 }
 
-export interface QuizFeedbackTypeEntity {
-  uuid: string;
-  langcode: string;
-  status: boolean;
-  dependencies: string[];
-  id: string;
-  label: string;
+export interface QuizFeedbackTypeEntity extends EntityBundleType {
   description: string;
   component: {
     expression: {
@@ -77,14 +72,14 @@ export interface QuizFeedbackTypeEntity {
         condition_id: string;
         negate: boolean;
       }[];
-    },
+    };
     context_definitions: {
       quiz_result: {
         type: string;
         label: string;
         description: string;
-      },
-    },
+      };
+    };
     provided_context_definitions: string[];
   };
 }
@@ -104,4 +99,39 @@ export interface QuizQuestionEntity {
   max_score?: FieldNumber[];
   feedback?: FieldTextArea[];
   [key: string]: any[];
+}
+
+export interface QuizQuestionRelationshipEntity {
+  question_id: FieldEntityReferenceUrl[];
+  quiz_id: FieldEntityReferenceUrl[];
+  qqr_id?: FieldNumber[];
+  qqr_pid?: FieldNumber[];
+  quiz_vid?: FieldNumber[];
+  question_vid?: FieldNumber[];
+  question_status?: FieldNumber[];
+  weight?: FieldNumber[];
+  max_score?: FieldNumber[];
+  auto_update_max_score?: FieldBoolean[];
+}
+
+export interface QuizResultEntity {
+  type: FieldText[];
+  qid: FieldEntityReferenceUrl[];
+  vid: FieldNumber[];
+  result_id?: FieldNumber[];
+  uuid?: FieldText[];
+  uid?: FieldEntityReferenceUrl[];
+  time_start?: FieldNumber[];
+  time_end?: FieldNumber[];
+  released?: FieldBoolean[];
+  score?: FieldNumber[];
+  is_invalid?: FieldBoolean[];
+  is_evaluated?: FieldBoolean[];
+  attempt?: FieldNumber[];
+  created?: FieldNumber[];
+  changed?: FieldNumber[];
+}
+
+export interface QuizResultAnswerEntity {
+  
 }
