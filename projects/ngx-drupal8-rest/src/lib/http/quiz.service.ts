@@ -402,7 +402,7 @@ export class QuizService extends BaseService {
     );
   }
 
-  // Result answer TODO
+  // Result answer: interfaces TODO
 
   /**
    * Implements /quiz/{quiz}/result/{quiz_result}/answer/{quiz_result_answer}: GET
@@ -411,7 +411,7 @@ export class QuizService extends BaseService {
    * @param qrid the quiz result entity ID
    * @param qrid the quiz result answer entity ID
    */
-   getResultAnswer(qid: number, qrid: number, raid: number): Observable<QuizResultAnswerEntity> {
+   getResultAnswer(qid: number, qrid: number, raid: number): Observable<any> {
     const httpOptions: HttpOptions = {
       method: 'get',
       params: {
@@ -424,11 +424,11 @@ export class QuizService extends BaseService {
   }
 
   /**
-   * Implements /entity/quiz_result: POST
-   * Returns quiz result created entity
-   * @param result the quiz result entity
+   * Implements /entity/quiz_result_answer: POST
+   * Returns quiz result answer created entity
+   * @param answer the quiz result answer entity
    */
-  createResultAnswer(result: QuizResultAnswerEntity): Observable<QuizResultAnswerEntity> {
+  createResultAnswer(answer: any): Observable<any> {
     const httpOptions: HttpOptions = {
       method: 'post',
       params: {
@@ -436,40 +436,43 @@ export class QuizService extends BaseService {
       },
     };
 
-    return this.request(httpOptions, '/entity/quiz_result', result);
+    return this.request(httpOptions, '/entity/quiz_result_answer', answer);
   }
 
   /**
    * Implements /quiz/{quiz}/result/{quiz_result}/answer/{quiz_result_answer}: PATCH
    * Returns quiz result updated entity
+   * Returns quiz result answer entity
    * @param qid the quiz entity ID
    * @param qrid the quiz result entity ID
-   * @param result the quiz result updated entity
+   * @param qrid the quiz result answer entity ID
+   * @param answer the quiz result answer entity
    */
-   updateResultAnswer(qid: number, qrid: number, result: QuizResultAnswerEntity): Observable<QuizResultAnswerEntity> {
+   updateResultAnswer(qid: number, qrid: number, raid: number, answer: any): Observable<any> {
     const httpOptions: HttpOptions = {
       method: 'patch',
       params: {
         _format: 'json',
       },
-      frags: [qid, qrid]
+      frags: [qid, qrid, raid]
     };
 
-    return this.request(httpOptions, '/quiz/{quiz}/result/{quiz_result}/answer/{quiz_result_answer}', result);
+    return this.request(httpOptions, '/quiz/{quiz}/result/{quiz_result}/answer/{quiz_result_answer}', answer);
   }
 
   /**
    * Implements /quiz/{quiz}/result/{quiz_result}/answer/{quiz_result_answer}: DELETE
    * @param qid the quiz entity ID
    * @param qrid the quiz result entity ID
+   * @param qrid the quiz result answer entity ID
    */
-   deleteResultAnswer(qid: number, qrid: number): Observable<null> {
+   deleteResultAnswer(qid: number, qrid: number, raid: number): Observable<null> {
     const httpOptions: HttpOptions = {
       method: 'delete',
       params: {
         _format: 'json',
       },
-      frags: [qid, qrid]
+      frags: [qid, qrid, raid]
     };
 
     return this.request(httpOptions, '/quiz/{quiz}/result/{quiz_result}/answer/{quiz_result_answer}');
