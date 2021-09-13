@@ -477,4 +477,24 @@ export class QuizService extends BaseService {
 
     return this.request(httpOptions, '/quiz/{quiz}/result/{quiz_result}/answer/{quiz_result_answer}');
   }
+
+/**
+   * Implements /entity/quiz_result_answer_type/{quiz_result_answer_type}: GET
+   * Returns quiz answer result type
+   * @param resultMachineName the type machine name
+   */
+  getResultAnswerType(resultAnswerMachineName: string): Observable<EntityBundleType> {
+    const httpOptions: HttpOptions = {
+      method: 'get',
+      params: {
+        _format: 'json',
+      },
+      frags: [resultAnswerMachineName],
+    };
+
+    return this.request(
+      httpOptions,
+      '/entity/quiz_result_answer_type/{quiz_result_answer_type}'
+    );
+  }
 }
