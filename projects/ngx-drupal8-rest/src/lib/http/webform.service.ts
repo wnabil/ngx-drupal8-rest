@@ -15,7 +15,6 @@ import { DrupalConstants } from "../config";
 
 @Injectable()
 export class WebformService extends BaseService {
-  private readonly langCodeKeyParams = "langcode";
   /**
    * Implement resource 	/webform/{webform} GET
    * @param name the webform machine name
@@ -27,7 +26,7 @@ export class WebformService extends BaseService {
       frags: [machineName],
     };
     if (langCode) {
-      httpOptions.params[this.langCodeKeyParams] = langCode;
+      httpOptions.params = { langcode: langCode };
     }
     return this.request(httpOptions, "/webform/{webform}");
   }
@@ -43,7 +42,7 @@ export class WebformService extends BaseService {
       frags: [machineName],
     };
     if (langCode) {
-      httpOptions.params[this.langCodeKeyParams] = langCode;
+      httpOptions.params = { langcode: langCode };
     }
     return this.request(httpOptions, "/webform_rest/{webform_id}/fields");
   }
@@ -63,7 +62,7 @@ export class WebformService extends BaseService {
       frags: [machineName, sid.toString()],
     };
     if (langCode) {
-      httpOptions.params[this.langCodeKeyParams] = langCode;
+      httpOptions.params = { langcode: langCode };
     }
     return this.request(
       httpOptions,
