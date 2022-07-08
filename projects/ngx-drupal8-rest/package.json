@@ -1,5 +1,5 @@
 {
-  "name": "ngx-drupal8-rest",
+  "name": "ngx-drupal8-rest-iko",
   "version": "1.12.4",
   "peerDependencies": {
     "@angular/common": "^12.0.2",
