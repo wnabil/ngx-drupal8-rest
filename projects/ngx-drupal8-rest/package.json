@@ -1,6 +1,19 @@
 {
-  "name": "ngx-drupal8-rest-iko",
+  "name": "@makiwin/ngx-drupal8-rest",
   "version": "1.12.4",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Makiwin/ngx-drupal8-rest.git"
+  },
+  "author": "Wassem Keddah, Massimiliano Vinciprova",
+  "homepage": "https://github.com/Makiwin/ngx-drupal8-rest/",
+  "license": "MIT",
+  "keywords": [
+    "angular",
+    "drupal8",
+    "javascript",
+    "drupal 8 rest"
+  ],
   "peerDependencies": {
     "@angular/common": "^12.0.2",
     "@angular/core": "^12.0.2"
