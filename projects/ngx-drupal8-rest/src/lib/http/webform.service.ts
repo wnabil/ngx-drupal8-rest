@@ -1,17 +1,17 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 // RXJS
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 // Custom imports
-import { BaseService } from "./base.service";
+import { BaseService } from './base.service';
 import {
   HttpOptions,
   WebformEntity,
   WebformFields,
   WebformSubmission,
-} from "../models";
-import { DrupalConstants } from "../config";
+} from '../models';
+import { DrupalConstants } from '../config';
 
 @Injectable()
 export class WebformService extends BaseService {
@@ -22,13 +22,13 @@ export class WebformService extends BaseService {
    */
   get(machineName: string, langCode?: string): Observable<WebformEntity> {
     const httpOptions: HttpOptions = {
-      method: "get",
+      method: 'get',
       frags: [machineName],
     };
     if (langCode) {
       httpOptions.params = { langcode: langCode };
     }
-    return this.request(httpOptions, "/webform/{webform}");
+    return this.request(httpOptions, '/webform/{webform}');
   }
 
   /**
@@ -38,13 +38,13 @@ export class WebformService extends BaseService {
    */
   fields(machineName: string, langCode?: string): Observable<WebformFields> {
     const httpOptions: HttpOptions = {
-      method: "get",
+      method: 'get',
       frags: [machineName],
     };
     if (langCode) {
       httpOptions.params = { langcode: langCode };
     }
-    return this.request(httpOptions, "/webform_rest/{webform_id}/fields");
+    return this.request(httpOptions, '/webform_rest/{webform_id}/fields');
   }
 
   /**
@@ -58,7 +58,7 @@ export class WebformService extends BaseService {
     langCode?: string
   ): Observable<WebformSubmission> {
     const httpOptions: HttpOptions = {
-      method: "get",
+      method: 'get',
       frags: [machineName, sid.toString()],
     };
     if (langCode) {
@@ -66,7 +66,7 @@ export class WebformService extends BaseService {
     }
     return this.request(
       httpOptions,
-      "/webform_rest/{webform_id}/submission/{sid}"
+      '/webform_rest/{webform_id}/submission/{sid}'
     );
   }
 
@@ -82,12 +82,12 @@ export class WebformService extends BaseService {
     webformSubmission: any
   ): Observable<{ sid: string } | { error: { message: string } }> {
     const httpOptions: HttpOptions = {
-      method: "patch",
+      method: 'patch',
       frags: [machineName, sid.toString()],
     };
     return this.request(
       httpOptions,
-      "/webform_rest/{webform_id}/submission/{sid}",
+      '/webform_rest/{webform_id}/submission/{sid}',
       webformSubmission
     );
   }
@@ -102,9 +102,9 @@ export class WebformService extends BaseService {
     [key: string]: any;
   }): Observable<{ sid: string }> {
     const httpOptions: HttpOptions = {
-      method: "post",
+      method: 'post',
     };
-    return this.request(httpOptions, "/webform_rest/submit", webformSubmission);
+    return this.request(httpOptions, '/webform_rest/submit', webformSubmission);
   }
 
   /**
@@ -113,22 +113,22 @@ export class WebformService extends BaseService {
    */
   upload(machineName: string, fieldName: string, file: File) {
     const httpOptions: HttpOptions = {
-      method: "post",
+      method: 'post',
       frags: [machineName, fieldName],
       headers: {
-        "Content-Type": "application/octet-stream",
-        "Content-Disposition": `file; filename="${file.name}"`,
+        'Content-Type': 'application/octet-stream',
+        'Content-Disposition': `file; filename="${file.name}"`,
       },
     };
 
     // If the user is logged in, add the CSRF header token
     if (DrupalConstants.Connection && DrupalConstants.Connection.csrf_token) {
-      httpOptions.headers["X-CSRF-Token"] =
+      httpOptions.headers['X-CSRF-Token'] =
         DrupalConstants.Connection.csrf_token;
     }
     return this.request(
       httpOptions,
-      "/webform_rest/{webform_id}/upload/{field_name}",
+      '/webform_rest/{webform_id}/upload/{field_name}',
       file
     );
   }
