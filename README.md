@@ -47,7 +47,15 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Installation
 
+### For integrating on your project
+
+```sh
+$ npm i @makiwin/ngx-drupal8-rest
+```
+
 **BEFORE YOU INSTALL:** please read the [prerequisites](#prerequisites)
+
+### For contribuiting to the project
 
 Start with cloning this repo on your local machine:
 
@@ -245,7 +253,7 @@ TODO: Write credits
 
 * VsCode
 * npm
-* Love :love:
+* Love :heart:
 
 ## Versioning
 
