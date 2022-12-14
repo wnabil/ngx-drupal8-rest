@@ -1,6 +1,6 @@
 {
   "name": "@makiwin/ngx-drupal8-rest",
-  "version": "1.14.1",
+  "version": "1.14.2",
   "scripts": {
     "watch:dev": "ng build --watch "
   },
