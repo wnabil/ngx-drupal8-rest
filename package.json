@@ -8,10 +8,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build_lib": "ng build ngx-drupal8-rest",
+    "build_lib": "ng build @makiwin/ngx-drupal8-rest",
     "npm_pack": "cd dist/ngx-drupal8-rest && npm pack",
-    "copy-license": "copy .\\LICENSE .\\dist\\ngx-drupal8-rest",
-    "copy-readme": "copy .\\README.md .\\dist\\ngx-drupal8-rest",
+    "copy-license": "cp ./LICENSE ./dist/ngx-drupal8-rest",
+    "copy-readme": "cp ./README.md ./dist/ngx-drupal8-rest",
     "copy-files": "npm run copy-license && npm run copy-readme",
     "package": "npm run build_lib && npm run copy-files && npm run npm_pack"
   },
