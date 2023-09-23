@@ -13,45 +13,49 @@ export interface QuizEntity {
   title: FieldText[];
   type: FieldEntityReferenceUrl[];
   body: FieldTextArea[];
-  qid?: FieldNumber[];
-  uuid?: FieldText[];
-  vid?: FieldNumber[];
-  revision_created?: FieldNumber[];
-  revision_user?: FieldEntityReferenceUrl[];
-  revision_log_message?: FieldText[];
-  status?: FieldBoolean[];
-  uid?: FieldEntityReferenceUrl[];
-  created?: FieldNumber[];
-  changed?: FieldNumber[];
-  number_of_random_questions?: FieldNumber[];
-  max_score_for_random?: FieldNumber[];
-  pass_rate?: FieldNumber[];
-  summary_pass?: FieldTextArea[];
-  summary_default?: FieldTextArea[];
-  randomization?: FieldNumber[];
-  backwards_navigation?: FieldBoolean[];
-  keep_results?: FieldNumber[];
-  repeat_until_correct?: FieldBoolean[];
-  quiz_date?: ValueEndValue[];
-  takes?: FieldNumber[];
-  show_attempt_stats?: FieldBoolean[];
-  time_limit?: FieldNumber[];
-  max_score?: FieldNumber[];
-  allow_skipping?: FieldBoolean[];
-  allow_resume?: FieldBoolean[];
-  allow_jumping?: FieldBoolean[];
-  allow_change?: FieldBoolean[];
-  allow_change_blank?: FieldBoolean[];
-  build_on_last?: FieldText[];
-  show_passed?: FieldBoolean[];
-  mark_doubtful?: FieldBoolean[];
-  review_options?: {
-    [key: string]: { [key: string]: string };
-  }[];
-  result_type?: FieldEntityReference[];
-  result_options?: FieldEntityReference[];
-  quiz_terms?: FieldEntityReference[];
-  [key: string]: any[]; // custom fields
+  qid?: FieldNumber[] | any;
+  uuid?: FieldText[] | any;
+  vid?: FieldNumber[] | any;
+  revision_created?: FieldNumber[] | any;
+  revision_user?: FieldEntityReferenceUrl[] | any;
+  revision_log_message?: FieldText[] | any;
+  status?: FieldBoolean[] | any;
+  uid?: FieldEntityReferenceUrl[] | any;
+  created?: FieldNumber[] | any;
+  changed?: FieldNumber[] | any;
+  number_of_random_questions?: FieldNumber[] | any;
+  max_score_for_random?: FieldNumber[] | any;
+  pass_rate?: FieldNumber[] | any;
+  summary_pass?: FieldTextArea[] | any;
+  summary_default?: FieldTextArea[] | any;
+  randomization?: FieldNumber[] | any;
+  backwards_navigation?: FieldBoolean[] | any;
+  keep_results?: FieldNumber[] | any;
+  repeat_until_correct?: FieldBoolean[] | any;
+  quiz_date?: ValueEndValue[] | any;
+  takes?: FieldNumber[] | any;
+  show_attempt_stats?: FieldBoolean[] | any;
+  time_limit?: FieldNumber[] | any;
+  max_score?: FieldNumber[] | any;
+  allow_skipping?: FieldBoolean[] | any;
+  allow_resume?: FieldBoolean[] | any;
+  allow_jumping?: FieldBoolean[] | any;
+  allow_change?: FieldBoolean[] | any;
+  allow_change_blank?: FieldBoolean[] | any;
+  build_on_last?: FieldText[] | any;
+  show_passed?: FieldBoolean[] | any;
+  mark_doubtful?: FieldBoolean[] | any;
+  review_options?:
+    | {
+        [key: string]: {
+          [key: string]: string;
+        };
+      }[]
+    | any;
+  result_type?: FieldEntityReference[] | any;
+  result_options?: FieldEntityReference[] | any;
+  quiz_terms?: FieldEntityReference[] | any;
+  [key: string]: any[];
 }
 
 export interface QuizFeedbackTypeEntity extends EntityBundleType {
@@ -88,16 +92,16 @@ export interface QuizQuestionEntity {
   title: FieldText[];
   body: FieldTextArea[];
   type: FieldEntityReference[];
-  qqid?: FieldNumber[];
-  uuid?: FieldText[];
-  vid?: FieldNumber[];
-  revision_timestamp?: FieldNumber[];
-  revision_uid?: FieldEntityReferenceUrl[];
-  revision_log?: FieldText[];
-  status?: FieldBoolean[];
-  changed?: FieldNumber[];
-  max_score?: FieldNumber[];
-  feedback?: FieldTextArea[];
+  qqid?: FieldNumber[] | any;
+  uuid?: FieldText[] | any;
+  vid?: FieldNumber[] | any;
+  revision_timestamp?: FieldNumber[] | any;
+  revision_uid?: FieldEntityReferenceUrl[] | any;
+  revision_log?: FieldText[] | any;
+  status?: FieldBoolean[] | any;
+  changed?: FieldNumber[] | any;
+  max_score?: FieldNumber[] | any;
+  feedback?: FieldTextArea[] | any;
   [key: string]: any[];
 }
 
@@ -132,6 +136,4 @@ export interface QuizResultEntity {
   changed?: FieldNumber[];
 }
 
-export interface QuizResultAnswerEntity {
-  
-}
+export interface QuizResultAnswerEntity {}
