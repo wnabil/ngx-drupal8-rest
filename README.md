@@ -50,7 +50,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### For integrating on your project
 
 ```sh
-$ npm i @makiwin/ngx-drupal8-rest
+$ npm i ngx-drupal8-rest
 ```
 
 **BEFORE YOU INSTALL:** please read the [prerequisites](#prerequisites)
@@ -60,7 +60,7 @@ $ npm i @makiwin/ngx-drupal8-rest
 Start with cloning this repo on your local machine:
 
 ```sh
-$ git clone https://github.com/Makiwin/ngx-drupal8-rest
+$ git clone https://github.com/wnabil/ngx-drupal8-rest
 $ cd ngx-drupal8-rest
 ```
 
@@ -247,7 +247,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## Credits
 
-TODO: Write credits
+Thanks to @makiwin for the big help and support
 
 ## Built With
 
@@ -259,13 +259,8 @@ TODO: Write credits
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
 
-## Authors
-
-* **Wassem Keddah** - *Initial work* - [wnabil](https://github.com/wnabil)
-* **Massimiliano Vinciprova** - [Makiwin](https://github.com/Makiwin)
-
-See also the list of [contributors](https://github.com/Makiwin/ngx-drupal8-rest/graphs/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/wnabil/ngx-drupal8-rest/graphs/contributors) who participated in this project.
 
 ## License
 
-[MIT License](https://mit-license.org/2019) 
+[MIT License](https://mit-license.org/2019)
