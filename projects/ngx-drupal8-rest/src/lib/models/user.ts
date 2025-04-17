@@ -1,4 +1,11 @@
-import { FieldDate, FieldText, FieldBoolean, FieldEntityReference, FieldNumber, FieldEntityReferenceFile } from './field';
+import {
+  FieldDate,
+  FieldText,
+  FieldBoolean,
+  FieldEntityReference,
+  FieldNumber,
+  FieldEntityReferenceFile,
+} from "./field";
 
 export interface LoginCredentials {
   name: string;
@@ -33,4 +40,5 @@ export interface UserEntity {
   uid?: FieldNumber[];
   user_picture?: FieldEntityReferenceFile[];
   uuid?: FieldText[];
+  [key: string]: any[];
 }
