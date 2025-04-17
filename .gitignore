@@ -5,9 +5,8 @@
 /tmp
 /out-tsc
 .angular/cache
-
 # dependencies
-/node_modules
+node_modules
 /src/app/config.ts
 
 # IDEs and editors
