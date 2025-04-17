@@ -19,7 +19,7 @@
     "drupal 8 rest"
   ],
   "peerDependencies": {
-    "@angular/common": "^14.2.4",
-    "@angular/core": "^14.2.4"
+    "@angular/common": "^19.2.7",
+    "@angular/core": "^19.2.7"
   }
 }

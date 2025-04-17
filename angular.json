@@ -121,7 +121,7 @@
         }
       }
     },
-    "@makiwin/ngx-drupal8-rest": {
+    "ngx-drupal8-rest": {
       "root": "projects/ngx-drupal8-rest",
       "sourceRoot": "projects/ngx-drupal8-rest/src",
       "projectType": "library",
