@@ -128,7 +128,7 @@
       "prefix": "nd8r",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/ngx-drupal8-rest/tsconfig.lib.json",
             "project": "projects/ngx-drupal8-rest/ng-package.json"

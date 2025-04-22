@@ -156,7 +156,7 @@ export class BaseService {
         httpOptions
       );
     } else {
-      request = this.httpClient[options.method](
+      request = (this.httpClient[options.method] as any)(
         structuredResource,
         httpOptions
       );
