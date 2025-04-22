@@ -8,6 +8,7 @@ import {
 import { CommercePayment } from 'projects/ngx-drupal8-rest/src/lib/models';
 
 @Component({
+  standalone: false,
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
