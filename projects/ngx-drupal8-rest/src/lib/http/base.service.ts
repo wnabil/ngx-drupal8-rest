@@ -37,6 +37,10 @@ export class BaseService {
           }
           DrupalConstants.Token = token;
           DrupalConstants.TokenInit = true;
+          // If connection is not init but localstorage contains a connection
+          if (!DrupalConstants.Connection && this.connection) {
+            DrupalConstants.Connection = this.connection;
+          }
           return token;
         })
       )
@@ -65,7 +69,7 @@ export class BaseService {
       return false;
     }
 
-    return DrupalConstants.Connection ? true : false;
+    return DrupalConstants.Connection || this.connection ? true : false;
   }
 
   /**
