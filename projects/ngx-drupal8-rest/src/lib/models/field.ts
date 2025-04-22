@@ -7,9 +7,9 @@ export interface FieldText extends FieldValue {
 }
 
 export interface FieldTextArea extends FieldValue {
-  format: string;
-  processed: string;
-  summary: string;
+  format?: string;
+  processed?: string;
+  summary?: string;
 }
 
 export interface FieldNumber extends FieldValue {
@@ -33,6 +33,7 @@ export interface FieldEntityReference {
   target_id: string | number;
   target_type?: string;
   target_uuid?: string;
+  target_revision_id?: number;
 }
 
 export interface FieldEntityReferenceUrl extends FieldEntityReference {
@@ -60,4 +61,20 @@ export interface FieldPath {
   alias: string;
   langcode: string;
   pid: number;
+}
+
+export interface ValueEndValue {
+  value?: string;
+  end_value?: string;
+}
+
+export interface EntityBundleType {
+  uuid: string;
+  langcode: string;
+  status: boolean;
+  dependencies: {
+    [key: string]: { [key: string]: string[] };
+  };
+  id: string;
+  label: string;
 }

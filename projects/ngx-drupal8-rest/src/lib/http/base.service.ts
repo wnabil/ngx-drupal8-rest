@@ -1,36 +1,57 @@
-import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 // RXJS
-import { Observable } from 'rxjs';
-import { timeout, mergeMap, tap } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { mergeMap, tap, timeout } from 'rxjs/operators';
 
 // Custom imports
-import { HttpOptions, LoginResponse } from '../models';
+import { isPlatformServer } from '@angular/common';
 import { DrupalConstants } from '../config';
-import { isPlatformServer} from '@angular/common';
+import { HttpOptions, LoginResponse } from '../models';
 
 @Injectable()
 export class BaseService {
+  private static currentTokenRequest: Subject<string> = null;
 
   constructor(
     private httpClient: HttpClient,
-    @Inject(PLATFORM_ID) private platform: string,
-  ) { }
+    @Inject(PLATFORM_ID) private platform: string
+  ) {}
 
   getToken(): Observable<string> {
+    if (BaseService.currentTokenRequest) {
+      return BaseService.currentTokenRequest.asObservable();
+    }
+
+    BaseService.currentTokenRequest = new Subject<string>();
     const tokenOptions: HttpOptions = {
       method: 'get',
-      responseType: 'text'
+      responseType: 'text',
     };
-    return this.request(tokenOptions, '/session/token').pipe(tap(token => {
-      if (DrupalConstants.Token && token !== DrupalConstants.Token) {
-        this.deleteConnection();
-      }
-      DrupalConstants.Token = token;
-      DrupalConstants.TokenInit = true;
-      return token;
-    }));
+    this.request(tokenOptions, '/session/token')
+      .pipe(
+        tap((token) => {
+          if (DrupalConstants.Token && token !== DrupalConstants.Token) {
+            this.deleteConnection();
+          }
+          DrupalConstants.Token = token;
+          DrupalConstants.TokenInit = true;
+          return token;
+        })
+      )
+      .subscribe({
+        next: (token) => {
+          BaseService.currentTokenRequest.next(token);
+          BaseService.currentTokenRequest.complete();
+          BaseService.currentTokenRequest = null;
+        },
+        error: (error) => {
+          BaseService.currentTokenRequest = null;
+          throw Error(error);
+        },
+      });
+    return BaseService.currentTokenRequest.asObservable();
   }
 
   /**
@@ -87,7 +108,7 @@ export class BaseService {
       // get current time in ms
       const now = new Date().getTime();
       // get the future expiration time in ms
-      const expiration = now + (DrupalConstants.Settings.cookieLifetime * 1000);
+      const expiration = now + DrupalConstants.Settings.cookieLifetime * 1000;
       // set the expiration time
       localStorage.setItem('expiration', expiration.toString());
       localStorage.setItem('token', token);
@@ -115,7 +136,11 @@ export class BaseService {
    * @param resource The resource url, Token frags will be replaced from options.frags, EX: {'/user/{uid}'}
    * @param body the content to be sent with the request, Only for patch and post methods
    */
-  protected request(options: HttpOptions, resource: string, body?): Observable<any> {
+  protected request(
+    options: HttpOptions,
+    resource: string,
+    body?
+  ): Observable<any> {
     // Get full url
     const structuredResource = this.structureResource(resource, options.frags);
 
@@ -125,14 +150,23 @@ export class BaseService {
 
     // Use the desired method
     if (options.method === 'patch' || options.method === 'post') {
-      request = this.httpClient[options.method](structuredResource, body, httpOptions);
+      request = this.httpClient[options.method](
+        structuredResource,
+        body,
+        httpOptions
+      );
     } else {
-      request = this.httpClient[options.method](structuredResource, httpOptions);
+      request = (this.httpClient[options.method] as any)(
+        structuredResource,
+        httpOptions
+      );
     }
     if (resource !== '/session/token' && !DrupalConstants.TokenInit) {
-      return this.getToken().pipe(mergeMap(
-        () => request.pipe(timeout(DrupalConstants.Settings.requestTimeout))
-      ));
+      return this.getToken().pipe(
+        mergeMap(() =>
+          request.pipe(timeout(DrupalConstants.Settings.requestTimeout))
+        )
+      );
     }
     // Set requests time out from drupal config
     return request.pipe(timeout(DrupalConstants.Settings.requestTimeout));
@@ -150,7 +184,7 @@ export class BaseService {
       withCredentials: true,
       responseType: 'json',
       params: {
-        '_format': 'json' // required by drupal 8 rest
+        _format: 'json', // required by drupal 8 rest
       },
       headers: {},
       observe: 'body',
@@ -158,7 +192,8 @@ export class BaseService {
 
     // If the user is logged in, add the CSRF header token
     if (DrupalConstants.Connection && DrupalConstants.Connection.csrf_token) {
-      httpOptions.headers['X-CSRF-Token'] = DrupalConstants.Connection.csrf_token;
+      httpOptions.headers['X-CSRF-Token'] =
+        DrupalConstants.Connection.csrf_token;
     }
 
     // Override defaults
@@ -183,7 +218,10 @@ export class BaseService {
    * @param resource drupal base resource url
    * @param frags frags to change it with the value that inside brackets
    */
-  private structureResource(resource: string, frags: string[] | number[] = []): string {
+  private structureResource(
+    resource: string,
+    frags: string[] | number[] = []
+  ): string {
     // if there is no custom frags
     if (frags.length === 0) {
       return DrupalConstants.backEndUrl + resource;
@@ -207,5 +245,4 @@ export class BaseService {
     resourceFrags = resourceFrags.substr(1);
     return DrupalConstants.backEndUrl + resourceFrags;
   }
-
 }

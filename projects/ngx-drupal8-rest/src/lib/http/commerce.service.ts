@@ -6,12 +6,17 @@ import { Observable } from 'rxjs';
 // Custom imports
 import { BaseService } from './base.service';
 import {
-  HttpOptions, CartOrder, CartProductAdd, CommerceOrder, CommerceOrderEntity, CommercePayment, CommercePaymentEntity
+  HttpOptions,
+  CartOrder,
+  CartProductAdd,
+  CommerceOrder,
+  CommerceOrderEntity,
+  CommercePayment,
+  CommercePaymentEntity,
 } from '../models';
 
 @Injectable()
 export class CommerceService extends BaseService {
-
   // Commerce Cart API
 
   getCart(): Observable<CartOrder[]> {
@@ -36,7 +41,10 @@ export class CommerceService extends BaseService {
     return this.request(httpOptions, '/cart/add', data);
   }
 
-  updateCartOrderItems(orderId: number, items: { [key: number]: { quantity: number } }): Observable<CartOrder> {
+  updateCartOrderItems(
+    orderId: number,
+    items: { [key: number]: { quantity: number } }
+  ): Observable<CartOrder> {
     const httpOptions: HttpOptions = {
       method: 'patch',
       frags: [orderId],
@@ -69,12 +77,19 @@ export class CommerceService extends BaseService {
     return this.request(httpOptions, '/commerce/order/create', order);
   }
 
-  createPayment(orderId: number, payment: CommercePayment): Observable<CommercePaymentEntity> {
+  createPayment(
+    orderId: number,
+    payment: CommercePayment
+  ): Observable<CommercePaymentEntity> {
     const httpOptions: HttpOptions = {
       method: 'post',
       frags: [orderId],
     };
-    return this.request(httpOptions, '/commerce/payment/create/{order_id}', payment);
+    return this.request(
+      httpOptions,
+      '/commerce/payment/create/{order_id}',
+      payment
+    );
   }
 
   capturePayment(orderId: number, paymenId: number): Observable<null> {
@@ -82,7 +97,10 @@ export class CommerceService extends BaseService {
       method: 'post',
       frags: [orderId, paymenId],
     };
-    return this.request(httpOptions, '/commerce/payment/capture/{order_id}/{payment_id}', {});
+    return this.request(
+      httpOptions,
+      '/commerce/payment/capture/{order_id}/{payment_id}',
+      {}
+    );
   }
-
 }
