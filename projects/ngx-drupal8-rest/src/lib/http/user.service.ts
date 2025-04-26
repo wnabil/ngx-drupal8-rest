@@ -125,9 +125,9 @@ export class UserService extends BaseService {
    * @param user user info object to register
    */
   register(user: {
-    name: string;
-    pass: string;
-    mail: string;
+    name: string[];
+    pass: string[];
+    mail: string[];
   }): Observable<UserEntity> {
     const httpOptions: HttpOptions = {
       method: 'post',
