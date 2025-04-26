@@ -128,6 +128,7 @@ export class UserService extends BaseService {
     name: string[];
     pass: string[];
     mail: string[];
+    [key:string]: any[]
   }): Observable<UserEntity> {
     const httpOptions: HttpOptions = {
       method: 'post',
