@@ -36,7 +36,6 @@ export class BaseService {
             this.deleteConnection();
           }
           DrupalConstants.Token = token;
-          DrupalConstants.TokenInit = true;
           // If connection is not init but localstorage contains a connection
           if (!DrupalConstants.Connection && this.connection) {
             DrupalConstants.Connection = this.connection;

@@ -32,9 +32,7 @@ export class DrupalConstants {
   }
 
   static set Token(value: string) {
-    if (!value) {
-      this.TokenInit = false;
-    }
+    this.Instance.tokenInit = value ? true : false;
     this.Instance.token = value;
   }
 

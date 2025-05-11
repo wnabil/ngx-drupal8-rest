@@ -1,6 +1,6 @@
 {
   "name": "ngx-drupal8-rest",
-  "version": "1.19.2",
+  "version": "1.19.4",
   "scripts": {
     "watch:dev": "ng build --watch "
   },
